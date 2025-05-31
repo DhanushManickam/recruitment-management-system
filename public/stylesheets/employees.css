@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    display: flex;
+    height: 100vh;
+}
+.main-navbar {
+    width: 180px;
+    background-color: #333333;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+.main-navbar nav {
+    margin-top: 40px;
+}
+.main-navbar a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-left: 25px;
+    text-decoration: none;
+    color: #fff;
+    width: 160px;
+    border-radius: 50px 0px 0px 50px;
+}
+.main-navbar a:hover {
+    background-color: #c8c8c8;
+    color: black;
+    font-weight: bold;
+}
+.main-navbar nav #present {
+    background-color: #fff;
+    color: black;
+    font-weight: bold;
+}
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 180px;
+    overflow-y: auto;
+    height: 100vh;
+}
+header {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    background-color: #D9D9D9;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    padding: 0 30px;
+}
+header .headr {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+header #profile {
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    background-image: url("../images/iconamoon_profile-fill.png");
+    background-size: 50px 50px;
+    border-radius: 50px;
+}
+header h2 {
+    margin-left: 0;
+}
+.headr a {
+    background-color: #37CAB5;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+}
+.headr a:hover {
+    background-color: #2aa89a;
+}
+.emptable{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 30px;
+    gap : 20px;
+    box-sizing: border-box;
+    position: relative;
+    align-items: center;
+}
+.add_emp a{
+    text-decoration: none;
+    background-color: #37CAB5;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #000;
+}
+.add_emp a:hover{
+    background-color: #2aa89a;
+    color: #fff;
+}
+.searchbar{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.searchbar input{
+    width: 600px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0.5px solid #333333;
+    padding: 5px 5px 5px 10px;
+}
+.searchbar button{
+    color: #000;
+    background-color: #37CAB5;
+    border: none;
+    padding: 4px;
+    border-radius: 5px;
+}
+.searchbar button:hover{
+    color: #fff;
+    background-color: #2aa89a;
+}
+.emplist{
+    overflow: auto;
+    width: 100%;
+}
+.emplist table {
+    border: 1px solid #333333;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: left;
+    text-align: center;
+}
+.emplist tr,td{
+    border: 1px solid #333333;
+}
+.emplist th{
+    border: 1px solid #333333;
+    background-color: #37cab45f;
+}

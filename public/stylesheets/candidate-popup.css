@@ -1,0 +1,145 @@
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    margin: 4% auto;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;   
+    overflow-y: auto;
+    border-radius: 10px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+form {
+    margin: 10px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+form .fixed{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    position: sticky;
+    top: -20px;
+    width: 725px;
+    height: 85px;
+}
+
+form p{
+    font-weight: 700;
+    margin: 0px;
+}
+form .addclosebtn,.editclosebtn {
+    position: absolute;
+    right: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form .rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#addcandidateForm .field {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#addcandidateForm #line{
+    margin: 5px 0px 5px 0px;
+    width: 725px;
+    height: 1px;
+    background-color: #656565;
+}
+#editcandidateForm .field {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#editcandidateForm #line{
+    margin: 5px 0px 5px 0px;
+    width: 725px;
+    height: 1px;
+    background-color: #656565;
+}
+.field label{
+    color: #393939;
+}
+.field input , select{
+    outline: none;
+    border-radius: 5px;
+    border: 0.5px solid #656565;
+    padding: 3px 5px 3px 10px;
+}
+#referral_field input{
+    outline: none;
+    border-radius: 5px;
+    border: 0.5px solid #656565;
+    padding: 5px 5px 5px 10px;
+    width: 300px;
+}
+
+.field select{
+    padding: 8px;
+}
+.field .radio{
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+    gap: 20px;
+}
+.field .radio input[type="radio"]:checked {
+    background-color: #37CAB5;
+}
+#skill .tagify {
+    border-radius: 5px;
+    border: 0.5px solid #656565;
+    width: 725px;
+}
+
+form button {
+    color: #000000;
+    background-color: #37CAB5;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    margin-left: auto;
+    margin-top: 20px;
+}
+form button:hover{
+    color: #fff;
+}
+form .final{
+    display: flex;
+    gap: 20px;
+}
+
+.field input[type="file"]::file-selector-button {
+    font-size: 14px;
+    border: none;
+    background-color: #fff;
+    margin-top: 2px;
+    color: #1302ff;
+    text-decoration: underline;
+}

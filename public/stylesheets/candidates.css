@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    display: flex;
+    height: 100vh;
+}
+.main-navbar {
+    width: 180px;
+    background-color: #333333;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+.main-navbar nav {
+    margin-top: 40px;
+}
+.main-navbar a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-left: 25px;
+    text-decoration: none;
+    color: #fff;
+    width: 160px;
+    border-radius: 50px 0px 0px 50px;
+}
+.main-navbar a:hover {
+    background-color: #c8c8c8;
+    color: black;
+    font-weight: bold;
+}
+.main-navbar nav #present {
+    background-color: #fff;
+    color: black;
+    font-weight: bold;
+}
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 180px;
+    overflow-y: auto;
+    height: 100vh;
+}
+header {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    background-color: #D9D9D9;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    padding: 0 30px;
+}
+header .headr {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+header #profile {
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    background-image: url("../components/iconamoon_profile-fill.png");
+    background-size: 50px 50px;
+    border-radius: 50px;
+}
+header h2 {
+    margin-left: 0;
+}
+.newcandidate a {
+    background-color: #37CAB5;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+}
+.newcandidate a:hover {
+    color: #fff;
+    background-color: #2aa89a;
+}
+.buttons{
+    display: flex;
+    gap: 10px;
+    justify-content: right;
+    align-items: center;
+}
+.candidates {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 30px;
+    gap : 20px;
+    box-sizing: border-box;
+}
+#searchbtn {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+#searchbtn input {
+    width: 600px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0.5px solid #333333;
+    padding: 5px 5px 5px 10px;
+
+}
+#searchbtn button {
+    right: 5px;
+    color: white;
+    background-color: #37CAB5;
+    border: none;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.tableview a{
+    text-decoration: none;
+    color: black;
+    background-color: #37CAB5;
+    border-radius: 5px;
+    padding: 10px;
+}
+.tableview a:hover{
+    color: white;
+    background-color: #2aa89a;
+}
+
+.lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    justify-content: start;
+    width: 90%;
+    margin: auto;
+}
+.lists .list {
+    width: 250px;
+    height: fit-content;
+    background-color: #37cab471;
+    border-radius: 5px; 
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    align-items: center;
+    gap: 20px;
+}
+.list #cimage{
+    background-color: #fff;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+
+}
+.list #cimage img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.list .details {
+    width: 100%;
+    padding-left:40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 0 0 5px 5px;
+}
+.list .details p {
+    margin: 0;
+    font-weight: 500;
+    color: #000000;
+}
+.list .editbtn {
+    border: none;
+    background-color: #37CAB5;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000000;
+    padding: 5px 25px 5px 25px;
+}
+.list .editbtn:hover {
+    background-color: #2aa89a;
+    color: #fff;
+}
+.list .updatebtn {
+    color: #000000;
+    padding: 1px 15px 1px 15px;
+    background-color: #3754fe;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.list .updatebtn:hover{
+    background-color: #3754fe;
+    color: #fff;
+}
+
+.list #selectbtn{
+    text-decoration: none;
+    padding: 5px;
+    background-color: #06C200;
+    border-radius: 5px;
+    margin-left: 10px;
+    color: #000000;
+}
+.list #rejectbtn{
+    text-decoration: none;
+    padding: 5px;
+    background-color: #FF0101;
+    border-radius: 5px;
+    margin-left: 10px;
+    color: #000000;
+}
+.list #selectbtn:hover {
+    color: #fff;
+}
+.list #rejectbtn:hover{
+    color: #fff;
+}
+
+.candidate_table{
+    margin: 20px;
+}
+#candidateTable {
+    overflow: auto;
+    width: 100%;
+    background-color: #fff;
+}
+
+#candidateTable table {
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+#candidateTable #head-row #start{
+    border-radius: 5px 0px 0px 0px;
+}
+#candidateTable #head-row #end{
+    border-radius: 0px 5px 0px 0px;
+}
+#candidateTable th {
+    border: thin solid #656565;
+    background-color: #37cab4c3;
+    color: #000000;
+    padding: 5px;
+    text-align: center;
+}
+#candidateTable td{
+    
+    background-color: #fff;
+    border: thin solid #656565;
+    color: #000000;
+    padding: 5px;
+    text-align: center;
+}
+#candidateTable  .editbtn {
+    border: none;
+    background-color: #37CAB5;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000000;
+    padding: 5px 25px 5px 25px;
+}
+#candidateTable .editbtn:hover{
+    background-color: #2aa89a;
+    color: #fff;
+}
+
+#candidateTable .updatebtn {
+    padding: 3px 20px 2px 20px;
+    background-color: #3754fe;
+    border-radius: 5px;
+    text-align: center;
+    color: #000;
+}
+#candidateTable .updatebtn:hover{
+    color: #fff;
+    background-color: #3754fe;
+}
+.dataTables_filter{
+    margin: 20px 0px 20px 0px;
+    border-radius: 5px;
+}
+
+.dataTables_filter input[type="search"] {
+    min-width: 500px;
+}
+th.sorting_asc::after {
+    color: green;  
+}
+
+th.sorting_desc::after {
+    color: red; 
+}
+
+.dataTables_length{
+    margin : 20px
+}
+
+.rate{
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+}
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 30px;
+    font-weight: 300;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}

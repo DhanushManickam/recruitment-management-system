@@ -1,0 +1,156 @@
+<div id="editModal" class="modal">
+    <div class="modal-content">
+      <form id="editcandidateForm" class="form-content" enctype="multipart/form-data">
+        <div class="fixed">
+          <span class="editclosebtn">&times;</span>
+          <p>Personal details</p>
+
+          <div class="rows">
+              <div class="field">
+                  <label><span><i class="fa-regular fa-user"></i> First name* </span></label>
+                  <input type="text" id="fname" name="first_name" required>
+              </div>
+  
+              <div class="field">
+                  <label><span><i class="fa-regular fa-user"></i> Last name* </span></label>
+                  <input type="text" id="lname" name="last_name" required>
+              </div>
+          </div>
+         
+          </div>
+          <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-regular fa-envelope"></i> Email id* </span></label>
+                <input type="email" id="email" name="email_id" required>
+            </div>
+            
+            <div class="field">
+                <label><span><i class="fa-solid fa-phone"></i> Phone no* </span></label>
+                <input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-solid fa-graduation-cap"></i> Qualification </span></label>
+                <input type="text" name="qualification" id="qualification">
+            </div>
+
+            <div class="field">
+                <label><span><i class="fa-solid fa-location-dot"></i> Location</span></label>
+                <input type="text" name="location" id="location">
+            </div>
+        </div>
+
+        <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-regular fa-file"></i> Resume</span></label>
+                <input type="file" name="resume" id="resume">
+            </div>
+            
+            <div class="field">
+                <label><span><i class="fa-solid fa-link"></i> GitHub link</span></label>
+                <input type="text" name="gitlink" id="gitlink">
+            </div>
+        </div>
+        <div class="rows">
+
+            <div class="field">
+                <label>
+                  <span><i class="fa fa-link"></i> Source*</span>
+                </label>
+                <select name="source" id="source" onchange="toggleOtherInput()" required>
+                    <option value="none" disabled >Select source</option>
+                    <option value="Linked in">Linked in</option>
+                    <option value="Indeed">Indeed</option>
+                    <option value="Naukri">Naukri</option>
+                    <option value="Referral">Referral</option>
+                  </select>
+            </div>
+
+            <div class="field" id="referral_field" style="display: none;">
+                <label for="referral">
+                  <span><i class="fa fa-user"></i> Employee id</span>
+                </label>
+                <input type="number" name="emp_id" id="emp_id">
+            </div>
+        </div>
+
+        <div id="line"></div>
+        <p>Professional details</p>
+        <div class="rows">
+            <div class="field">
+                <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role</span></label>
+                <select name="role" id="role">
+                    <option value="none" disabled >Select Role</option>
+                    <option value="App Developer">App Developer</option>
+                    <option value="Customer Trainer">Customer Trainer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>                
+                    <option value="Human Resource">Human Resource</option>
+                    <option value="Web/App Tester">Web/App Tester</option>
+                </select>
+            </div>
+            <div class="field">
+                <label><span><i class="fa-solid fa-building"></i> Current Company</span></label>
+                <input type="text" name="company" id="company">
+            </div>
+        </div>
+        <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-solid fa-briefcase"></i> Designation</span></label>
+                <input type="text" name="designation" id="designation" >
+            </div>
+            <div class="field">
+                <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span></label>
+                <input type="number" name="experience" id="experience" step=".1">
+            </div>
+        </div>
+        
+        <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-solid fa-calendar-days"></i> Notice period</span></label>
+                <input type="date" name="notice_period" id="notice_period">
+            </div>
+
+            <div class="field">
+                <label for="sal_type" >
+                    <i class="fa-solid fa-wallet"></i> Salary type
+                    
+                </label>
+                <div class="radio" >
+                    <label><input type="radio" name="sal_type" value="CTC" id="ctc"> CTC</label>
+                    <label><input type="radio" name="sal_type" id="take_home" value="Monthly"> Monthly</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rows">
+            <div class="field">
+                <label><span><i class="fa-solid fa-wallet"></i> Current Salary</span></label>
+                <input type="number" name="current_salary" id="current_salary" step=".1">
+            </div>
+            <div class="field">
+                <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span></label>
+                <input type="number" name="expected_salary" id="expected_salary" step=".1">
+            </div>
+        </div>
+       
+        <div class="rows">
+            <div class="field">
+                <label id="skill">
+                  <span><i class="fa fa-list"></i> Skill sets</span> <input type="text" id="skills" name='basic' autofocus>
+                </label>
+            </div>
+        </div>
+
+  
+        <div class="rows">
+          <div class="final">
+            <input type="hidden" id="candidate_id">
+            <button type="submit" id="candidateFormUpdateBtn"><i class="fa fa-edit"></i> Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

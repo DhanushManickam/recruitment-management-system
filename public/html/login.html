@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../stylesheets/authentication.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="containerimg">
+            <img src="../components/Recuritment management system.png" alt="Recruitment Management System">
+        </div>
+
+        <div class="login">
+            <div id="loglogo">
+                <img src="../components/Login log.png" alt="Login logo">
+            </div>
+
+            <h2>Recruitment Management System</h2>
+
+            <form id="loginForm">
+                <div class="input-wrapper">
+                    <i class="fa fa-user"></i>
+                    <input type="email" name="email_id" id="email_id" placeholder="Email id" required>
+                </div>
+
+                <div class="input-wrapper">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                </div>
+
+                <a href="#">Forgot password?</a>
+
+                <input type="submit" value="SIGN IN" id="button">
+
+                <a href="/registerpage" id="registerlink">Register as new manager</a>
+            </form>
+        </div>
+    </div>
+    <script src="../javascripts/login.js"></script>
+</body>
+</html>
