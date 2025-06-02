@@ -3,7 +3,7 @@ const candidates = require('../models/candidate');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const {add_candidate, candidate_list} = require('../controllers/candidate');
+const {add_candidate, candidate_list, get_candidate} = require('../controllers/candidate');
 
 const storage = multer.diskStorage({
   destination : (req, file, cb)=>{
@@ -30,22 +30,7 @@ router.post('/add_candidate',upload.single('resume'), add_candidate);
 
 router.get('/api/candidates', candidate_list);
 
-router.get('/api/candidates/:id', async (req, res) => {
-  try {
-    const candidateId = req.params.id;
-    const candidate = await candidates.findOne({
-      where: { candidate_id: candidateId }
-    });
-    
-    if (!candidate) {
-      return res.status(404).json({ message: 'Candidate not found' });
-    }
-    res.json(candidate);
-  } catch (err) {
-    console.error('Error fetching candidate:', err);
-    res.status(500).send('Server Error');
-  }
-});
+router.get('/api/candidates/:id', get_candidate);
 
 router.put('/api/candidates/:id', upload.single('resume'), async (req, res) => {
   try {

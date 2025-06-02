@@ -53,7 +53,7 @@
                 $('#editModal #current_salary').val(candidate.current_salary || '');
                 $('#editModal #expected_salary').val(candidate.expected_salary || '');
                 $('#editModal #skills').val((candidate.skill_set || []).map(skill => Object.values(skill)[0]).join(', '));
-                $('#editModel #candidate_id').val(candidate.candidate_id);
+                $('#editModal #candidate_id').val(candidate.candidate_id);
                 document.getElementById('editModal').style.display = 'block';
               })
               .catch((error) =>
@@ -64,19 +64,18 @@
           $('#candidateTable').on('click', '.updatebtn', function (e) {
             e.preventDefault();
             const candidateId = $(this).data('id');
-
             fetch(`/api/candidates/${candidateId}`)
               .then((response) => response.json())
               .then((candidate) => {
-                $('#updateModal #update_fname').val(
-                  candidate.first_name + ' ' + candidate.last_name || ''
-                );
-                $('#updateModal #update_status').val(candidate.status || 'Waiting for Task');
-                $('#updateModal #update_followup').val(
-                  candidate.followUp
-                    ? candidate.followUp.split('T')[0]
-                    : new Date(candidate.createdAt).toISOString().split('T')[0]
-                );
+                $('#updateModal #taskName').val(candidate.task_name || '');
+                $('#updateModal #assignedDate').val(candidate.assigned_date ||'');
+                $('#updateModal #deadlineDate').val(candidate.deadline || '');
+                $('#updateModal #status').val(candidate.task_status || '');
+                $('#updateModal #reworkAssignDate').val(candidate.rework_assigned || '');
+                $('#updateModal #reworkDeadlineDate').val(candidate.rework_deadline || '');
+                $('#updateModal #rework_status').val(candidate.rework_status);
+                $('#updateModal #remark1').val(candidate.task_remark || '');
+
 
                 const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
                 updateModal.show();

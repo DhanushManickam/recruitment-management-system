@@ -1,4 +1,3 @@
-const path = require('path');
 const candidates = require('../models/candidate');
 
 module.exports.add_candidate = async (req, res) => {
@@ -88,3 +87,20 @@ module.exports.candidate_list  =  async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+module.exports.get_candidate =  async (req, res) => {
+  try {
+    const candidateId = req.params.id;
+    const candidate = await candidates.findOne({
+      where: { candidate_id: candidateId }
+    });
+    
+    if (!candidate) {
+      return res.status(404).json({ message: 'Candidate not found' });
+    }
+    res.json(candidate);
+  } catch (err) {
+    console.error('Error fetching candidate:', err);
+    res.status(500).send('Server Error');
+  }
+}

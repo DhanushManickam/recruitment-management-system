@@ -38,8 +38,7 @@ fetch('../html/edit-candidate.html')
     let updateBtn = document.querySelector("#candidateFormUpdateBtn");
     updateBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      const candidateid = document.querySelector("#candidate_id").value || '';
-      console.log(candidateid);
+      const candidateid = document.querySelector('#editModal #candidate_id').value;
       if (!candidateid) {
         console.log("Candidate Not found");
       }

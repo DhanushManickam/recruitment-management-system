@@ -3,7 +3,7 @@ function toggleOtherField() {
     const otherFields = document.getElementsByClassName('otherField');
   
     for (let i = 0; i < otherFields.length; i++) {
-      otherFields[i].style.display = (select.value === 'rework') ? 'block' : 'none';
+      otherFields[i].style.display = (select.value === 'Task Rework') ? 'block' : 'none';
     }
 }
 
