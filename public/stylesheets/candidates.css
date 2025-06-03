@@ -184,18 +184,6 @@ header h2 {
     font-weight: 500;
     color: #000000;
 }
-.list .editbtn {
-    border: none;
-    background-color: #37CAB5;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #000000;
-    padding: 5px 25px 5px 25px;
-}
-.list .editbtn:hover {
-    background-color: #2aa89a;
-    color: #fff;
-}
 .list .updatebtn {
     color: #000000;
     padding: 1px 15px 1px 15px;
@@ -275,7 +263,7 @@ header h2 {
     border-radius: 5px;
     text-decoration: none;
     color: #000000;
-    padding: 5px 25px 5px 25px;
+    padding: 3px 20px 2px 20px;
 }
 #candidateTable .editbtn:hover{
     background-color: #2aa89a;
@@ -292,6 +280,14 @@ header h2 {
 #candidateTable .updatebtn:hover{
     color: #fff;
     background-color: #3754fe;
+}
+#candidateTable .btn{
+    margin: 1px;
+}
+#candidateTable .deletebtn {
+    padding: 3px 20px 2px 20px;
+    border-radius: 5px;
+    text-align: center;
 }
 .dataTables_filter{
     margin: 20px 0px 20px 0px;

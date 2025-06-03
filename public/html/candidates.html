@@ -50,8 +50,7 @@
                             <th>Experience</th>
                             <th>Follow up</th>
                             <th>Current status</th>
-                            <th>Profile</th>
-                            <th id="end">Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +68,7 @@
                 </div>
             </div>
             <div id="searchbtn">
-                <input type="searchbtn">
+                <input type="searchbtn" id="search" >
                 <button><i class="fa fa-search"></i> Search</button>
             </div>
 
@@ -131,7 +130,7 @@
                 
             </div>
         </div>
-    </div>
+
 
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -151,28 +150,28 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
+                <form id="recruitment_form">
                   <div class="tab-content">
                       <div class="tab-pane fade show active" id="tab1" role="tabpanel">
                           <h5 class="modal-title">Task Details</h5>
-                          <form id="taskForm">
                               <div class="mb-3">
                                   <label for="taskName" class="form-label">Task Name</label>
-                                  <select name="taskName" id="taskName" class="form-select">
+                                  <select name="task_name" id="taskName" class="form-select">
                                     <option value="Web development">Web Development</option>
                                     <option value="App development">App Development</option>
                                   </select>
                               </div>
                               <div class="mb-3">
                                   <label for="assignedDate" class="form-label">Assigned Date</label>
-                                  <input type="date" class="form-control" id="assignedDate" name="assignedDate">
+                                  <input type="date" class="form-control" id="assignedDate" name="assigned_date">
                               </div>
                               <div class="mb-3">
                                   <label for="deadlineDate" class="form-label">Deadline Date</label>
-                                  <input type="date" class="form-control" id="deadlineDate" name="deadlineDate">
+                                  <input type="date" class="form-control" id="deadlineDate" name="deadline">
                               </div>
                               <div class="mb-3">
                                   <label for="status" class="form-label">Status</label>
-                                  <select class="form-select" id="status" name="status" onchange="toggleOtherField()">
+                                  <select class="form-select" id="status" name="task_status" onchange="toggleOtherField()">
                                       <option value="Completed">Completed</option>
                                       <option value="Pending">Pending</option>
                                       <option value="Rejected">Rejected</option>
@@ -181,11 +180,11 @@
                               </div>
                               <div class="mb-3 otherField" style="display: none;">
                                   <label for="reworkAssignDate" class="form-label">Rework Assigned Date</label>
-                                  <input type="date" class="form-control" id="reworkAssignDate" name="reworkAssignDate">
+                                  <input type="date" class="form-control" id="reworkAssignDate" name="rework_assigned">
                               </div>
                               <div class="mb-3 otherField" style="display: none;">
                                   <label for="reworkDeadlineDate" class="form-label">Rework Deadline Date</label>
-                                  <input type="date" class="form-control" id="reworkDeadlineDate" name="reworkDeadlineDate">
+                                  <input type="date" class="form-control" id="reworkDeadlineDate" name="rework_deadline">
                               </div>
                               <div class="mb-3 otherField" style="display: none;">
                                 <label for="rework_status" class="form-label">Status</label>
@@ -197,16 +196,14 @@
                               </div>
                               <div class="mb-3">
                                   <label for="remark1" class="form-label">Remark</label>
-                                  <textarea class="form-control" id="remark1" name="remark"></textarea>
+                                  <textarea class="form-control" id="remark1" name="task_remark"></textarea>
                               </div>
-                          </form>
                       </div>
-                      <div class="tab-pane fade" id="tab2" role="tabpanel">
+                      <div class="tab-pane fade" id="tab2" role="tabpanel"> 
                           <h5 class="modal-title">Interview Details</h5>
-                          <form id="interviewForm">
                               <div class="mb-3">
-                                  <label for="interviewDate" class="form-label">Interview Date</label>
-                                  <input type="datetime-local" class="form-control" id="interviewDate" name="interviewDate">
+                                  <label for="interviewAt" class="form-label">Interview Date</label>
+                                  <input type="datetime-local" class="form-control" id="interviewAt" name="interview_at">
                               </div>
                               <div class="mb-3">
                                   <label for="interviewer" class="form-label">Interviewer Name</label>
@@ -216,97 +213,123 @@
                                       <option value="i3">Interview3</option>
                                   </select>
                               </div>
+                              <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <label class="form-label">Technical Skills</label>
+                                  <div class="rating">
+                                      <input type="radio" name="technical_skills" value="5" id="tech5"><label for="tech5">☆</label>
+                                      <input type="radio" name="technical_skills" value="4" id="tech4"><label for="tech4">☆</label>
+                                      <input type="radio" name="technical_skills" value="3" id="tech3"><label for="tech3">☆</label>
+                                      <input type="radio" name="technical_skills" value="2" id="tech2"><label for="tech2">☆</label>
+                                      <input type="radio" name="technical_skills" value="1" id="tech1"><label for="tech1">☆</label>
+                                  </div>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <label  class="form-label">Communicational Skills</label>
+                                  <div class="rating">
+                                      <input type="radio" name="communication_skills" value="5" id="com5"><label for="com5">☆</label>
+                                      <input type="radio" name="communication_skills" value="4" id="com4"><label for="com4">☆</label>
+                                      <input type="radio" name="communication_skills" value="3" id="com3"><label for="com3">☆</label>
+                                      <input type="radio" name="communication_skills" value="2" id="com2"><label for="com2">☆</label>
+                                      <input type="radio" name="communication_skills" value="1" id="com1"><label for="com1">☆</label>
+                                  </div>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <label  class="form-label">Problem Solving Skills</label>
+                                  <div class="rating">
+                                      <input type="radio" name="problem_solving" value="5" id="ps5"><label for="ps5">☆</label>
+                                      <input type="radio" name="problem_solving" value="4" id="ps4"><label for="ps4">☆</label>
+                                      <input type="radio" name="problem_solving" value="3" id="ps3"><label for="ps3">☆</label>
+                                      <input type="radio" name="problem_solving" value="2" id="ps2"><label for="ps2">☆</label>
+                                      <input type="radio" name="problem_solving" value="1" id="ps1"><label for="ps1">☆</label>
+                                  </div>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <label class="form-label">Overall Rating</label>
+                                  <div class="rating">
+                                      <input type="radio" name="overall_ratings" value="5" id="or5"><label for="or5">☆</label>
+                                      <input type="radio" name="overall_ratings" value="4" id="or4"><label for="or4">☆</label>
+                                      <input type="radio" name="overall_ratings" value="3" id="or3"><label for="or3">☆</label>
+                                      <input type="radio" name="overall_ratings" value="2" id="or2"><label for="or2">☆</label>
+                                      <input type="radio" name="overall_ratings" value="1" id="or1"><label for="or1">☆</label>
+                                  </div>
+                              </div>
                               <div class="mb-3">
                                   <label for="result" class="form-label">Result</label>
-                                  <select class="form-select" id="result" name="result" onchange="onreinterview()">
-                                      <option value="selected">Selected</option>
-                                      <option value="rejected">Rejected</option>
-                                      <option value="pending">Pending</option>
-                                      <option value="reinterview">Re-Interview</option>
+                                  <select class="form-select" id="result" name="interview_status" onchange="onreinterview()">
+                                      <option value="Selected">Selected</option>
+                                      <option value="Rejected">Rejected</option>
+                                      <option value="Pending">Pending</option>
+                                      <option value="Re-interview">Re-Interview</option>
                                   </select>
                               </div>
-                              <div class="mb-3 reinterviewdate" style="display: none;">
-                                  <label for="reinterviewDate" class="form-label">Re-Interview Date</label>
-                                  <input type="datetime-local" class="form-control" id="reinterviewDate" name="reinterviewDate">
+                              <div class="mb-3 re-interview" style="display: none;">
+                                  <label for="reinterviewAt" class="form-label">Re-Interview Date</label>
+                                  <input type="datetime-local" class="form-control" id="reinterviewAt" name="re_interview_at">
                               </div>
-                              <div class="mb-3 reinterviewdate" style="display: none;">
+                              <div class="mb-3 re-interview" style="display: none;">
                                   <label for="re-result" class="form-label">Re-Interview Result</label>
-                                  <select class="form-select" id="re-result" name="re-result" onchange="onreinterview()">
-                                      <option value="selected">Selected</option>
-                                      <option value="rejected">Rejected</option>
-                                      <option value="pending">Pending</option>
+                                  <select class="form-select" id="re-result" name="re_interview" onchange="onreinterview()">
+                                      <option value="Selected">Selected</option>
+                                      <option value="Rejected">Rejected</option>
+                                      <option value="Pending">Pending</option>
                                   </select>
                               </div>
-                              <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <label for="tech_rating" class="form-label">Technical Skills</label>
+                              <div class="re-interview  align-items-center justify-content-between mb-3 " style="display: none;">
+                                  <label class="form-label">Re-Interview Rating</label>
                                   <div class="rating">
-                                      <input type="radio" name="tech_rating" value="5" id="tech5"><label for="tech5">☆</label>
-                                      <input type="radio" name="tech_rating" value="4" id="tech4"><label for="tech4">☆</label>
-                                      <input type="radio" name="tech_rating" value="3" id="tech3"><label for="tech3">☆</label>
-                                      <input type="radio" name="tech_rating" value="2" id="tech2"><label for="tech2">☆</label>
-                                      <input type="radio" name="tech_rating" value="1" id="tech1"><label for="tech1">☆</label>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <label for="com_rating" class="form-label">Communicational Skills</label>
-                                  <div class="rating">
-                                      <input type="radio" name="com_rating" value="5" id="com5"><label for="com5">☆</label>
-                                      <input type="radio" name="com_rating" value="4" id="com4"><label for="com4">☆</label>
-                                      <input type="radio" name="com_rating" value="3" id="com3"><label for="com3">☆</label>
-                                      <input type="radio" name="com_rating" value="2" id="com2"><label for="com2">☆</label>
-                                      <input type="radio" name="com_rating" value="1" id="com1"><label for="com1">☆</label>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <label for="pro" class="form-label">Problem Solving Skills</label>
-                                  <div class="rating">
-                                      <input type="radio" name="prob_slv_rating" value="5" id="ps5"><label for="ps5">☆</label>
-                                      <input type="radio" name="prob_slv_rating" value="4" id="ps4"><label for="ps4">☆</label>
-                                      <input type="radio" name="prob_slv_rating" value="3" id="ps3"><label for="ps3">☆</label>
-                                      <input type="radio" name="prob_slv_rating" value="2" id="ps2"><label for="ps2">☆</label>
-                                      <input type="radio" name="prob_slv_rating" value="1" id="ps1"><label for="ps1">☆</label>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <label for="pro" class="form-label">Overall Rating</label>
-                                  <div class="rating">
-                                      <input type="radio" name="overall_rating" value="5" id="or5"><label for="or5">☆</label>
-                                      <input type="radio" name="overall_rating" value="4" id="or4"><label for="or4">☆</label>
-                                      <input type="radio" name="overall_rating" value="3" id="or3"><label for="or3">☆</label>
-                                      <input type="radio" name="overall_rating" value="2" id="or2"><label for="or2">☆</label>
-                                      <input type="radio" name="overall_rating" value="1" id="or1"><label for="or1">☆</label>
+                                      <input type="radio" name="re_interview_ratings" value="5" id="re5"><label for="re5">☆</label>
+                                      <input type="radio" name="re_interview_ratings" value="4" id="re4"><label for="re4">☆</label>
+                                      <input type="radio" name="re_interview_ratings" value="3" id="re3"><label for="re3">☆</label>
+                                      <input type="radio" name="re_interview_ratings" value="2" id="re2"><label for="re2">☆</label>
+                                      <input type="radio" name="re_interview_ratings" value="1" id="re1"><label for="re1">☆</label>
                                   </div>
                               </div>
                               <div class="mb-3">
                                   <label for="remark2" class="form-label">Remark</label>
-                                  <textarea class="form-control" id="remark2" name="remark"></textarea>
+                                  <textarea class="form-control" id="remark2" name="interview_remark"></textarea>
                               </div>
-                          </form>
                       </div>
                       <div class="tab-pane fade" id="tab3" role="tabpanel">
                           <h5 class="modal-title">Onboard Details</h5>
-                          <form id="onboardForm">
                             <div class="mb-3">
                                 <label for="esalary" class="form-label">Expected Salary</label>
-                                <input type="number" class="form-control" id="esalary" name="esalary">
+                                <input type="number" class="form-control" id="esalary" name="expected_salary">
                             </div>
                               <div class="mb-3">
                                   <label for="onboardDate" class="form-label">Onboarding Date</label>
-                                  <input type="date" class="form-control" id="onboardDate" name="onboardDate">
+                                  <input type="date" class="form-control" id="onboardDate" name="reporting_date">
                               </div>
                               <div class="mb-3">
-                                  <label for="onboardtime" class="form-label">Reporting Time</label>
-                                  <input type="date" class="form-control" id="report_time" name="report_time">
+                                  <label for="report_time" class="form-label">Reporting Time</label>
+                                  <input type="time" class="form-control" id="report_time" name="reporting_time">
                               </div>
                               <div class="mb-3">
                                   <label for="location" class="form-label">Reporting Location</label>
-                                  <select name="location" id="location" class="form-select">
-                                      <option value="CBE">KT Telematic Solutions Pvt. Ltd, Coimbatore</option>
+                                  <select name="reporting_location" id="location" class="form-select">
+                                      <option value="KT Telematic Solutions Pvt. Ltd, Coimbatore">KT Telematic Solutions Pvt. Ltd, Coimbatore</option>
+                                      <option value="KT Telematic Solutions Pvt. Ltd, Salem">KT Telematic Solutions Pvt. Ltd, Salem</option>
                                   </select>
                               </div>
-                          </form>
+                              <div class="mb-3 d-flex justify-content-between">
+                                    <label class="form-label">Documents Verified</label>
+                                    <div >
+                                        <input type="radio" name="document_verified" id="yes" value="true" class="btn-check"><label for="yes" class="btn btn-primary">YES</label>
+                                        <input type="radio" name="document_verified" id="no" value="false"class="ms-3 btn-check"><label for="no"  class="btn btn-primary">NO</label>
+                                    </div>
+                              </div>
+                                 <div class="mb-3">
+                                  <label for="onboardStatus" class="form-label">Onboarding Status</label>
+                                  <select name="onboarding_status" id="onboardStatus" class="form-select">
+                                    <option value=""select hidden></option>
+                                    <option value="Onboarded">Onboarded</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Withdrawn">Withdrawn</option>
+                                    <option value="Rejected">Rejected</option>
+                                  </select>
+                              </div>
                       </div>
                   </div>
+                </form>
               </div>
               <div class="modal-footer">
                 <input type="hidden" id="candidate_id">
@@ -317,8 +340,6 @@
       </div>
   </div>
   
-
-    <div ></div>
     <script src="../javascripts/candidates.js"></script>
     <script src="../javascripts/header.js"></script>
     <script src="../javascripts/add-candidate.js"></script>
@@ -328,5 +349,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="../javascripts/delete-candidate.js"></script>
 </body>
 </html>

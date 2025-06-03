@@ -16,8 +16,9 @@
                 <td>${candidate.experience}</td>
                 <td>${follow_up_date}</td>
                 <td>${status}</td>
-                <td><a href="#" class="editbtn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i> Edit</a></td>
-                <td><a href="#" class="updatebtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-tasks"></i> Update</a></td>
+                <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i> Edit</a> 
+                <a href="#" class="updatebtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-tasks"></i> Update</a>
+                <a href="#" class="deletebtn btn btn-danger" data-id="${candidate.candidate_id}"><i class="fa fa-trash"></i> Delete</a></td>
               </tr>
             `);
           });
@@ -64,25 +65,56 @@
           $('#candidateTable').on('click', '.updatebtn', function (e) {
             e.preventDefault();
             const candidateId = $(this).data('id');
-            fetch(`/api/candidates/${candidateId}`)
+            fetch(`/api/update-candidate/${candidateId}`)
               .then((response) => response.json())
               .then((candidate) => {
+                let salary = candidate.expected_salary;
+                if(candidate.sal_type === 'Monthly'){
+                  salary = salary * 12;
+                }
+                function addday(today){
+                  let newdate = new Date(today);
+                  newdate.setDate(newdate.getDate() + 15);
+                  return newdate.toISOString().split('T')[0];
+                }
+                const interviewAt = candidate.interview_at ? new Date(candidate.interview_at).toISOString().slice(0, 16) : '';
+                const reInterviewAt = candidate.re_interview_at ? new Date(candidate.re_interview_at).toISOString().slice(0, 16) : '';
+                if(candidate.assigned_date)
+                  var deadline = addday(candidate.assigned_date);
+                if(candidate.rework_assigned)
+                  var redeadline = addday(candidate.rework_assigned);
                 $('#updateModal #taskName').val(candidate.task_name || '');
                 $('#updateModal #assignedDate').val(candidate.assigned_date ||'');
-                $('#updateModal #deadlineDate').val(candidate.deadline || '');
+                $('#updateModal #deadlineDate').val(deadline || '');
                 $('#updateModal #status').val(candidate.task_status || '');
                 $('#updateModal #reworkAssignDate').val(candidate.rework_assigned || '');
-                $('#updateModal #reworkDeadlineDate').val(candidate.rework_deadline || '');
+                $('#updateModal #reworkDeadlineDate').val(redeadline || '');
                 $('#updateModal #rework_status').val(candidate.rework_status);
                 $('#updateModal #remark1').val(candidate.task_remark || '');
-
-
+                $('#updateModal #interviewer').val(candidate.interviewer ||'')
+                $('#updateModal #interviewAt').val(interviewAt);
+                $('#updateModal #result').val(candidate.interview_status||'');
+                $('#updateModal #reinterviewAt').val(reInterviewAt);
+                $('#updateModal #re-result').val(candidate.re_interview||'');
+                $(`#updateModal input[name="technical_skills"][value="${parseInt(candidate.technical_skills)}"]`).prop("checked", true);
+                $(`#updateModal input[name="communication_skills"][value="${parseInt(candidate.communication_skills)}"]`).prop("checked", true);
+                $(`#updateModal input[name="problem_solving"][value="${parseInt(candidate.problem_solving)}"]`).prop("checked", true);
+                $(`#updateModal input[name="overall_ratings"][value="${parseInt(candidate.overall_ratings)}"]`).prop("checked", true);
+                $(`#updateModal input[name="re_interview_ratings"][value="${parseInt(candidate.re_interview_ratings)}"]`).prop("checked", true);
+                $('#updateModal #remark2').val(candidate.interview_remark||'');
+                $('#updateModal #esalary').val(salary||'');
+                $('#updateModal #onboardDate').val(candidate.reporting_date||'');
+                $('#updateModal #report_time').val(candidate.reporting_time||'');
+                $('#updateModal #location').val(candidate.reporting_location||'');
+                $(`#updateModal input[name="document_verified"][value="${candidate.document_verified}"]`).prop("checked", true);
+                $('#updateModal #onboardStatus').val(candidate.onboarding_status||'');
+                $('#updateModal #candidate_id').val(candidate.candidate_id);
                 const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
                 updateModal.show();
               })
               .catch((error) =>
                 console.error('Error fetching candidate details for update:', error)
-              );
+              );  
           });
         })
         .catch((error) => console.error('Error fetching candidates:', error));

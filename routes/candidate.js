@@ -3,7 +3,7 @@ const candidates = require('../models/candidate');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const {add_candidate, candidate_list, get_candidate} = require('../controllers/candidate');
+const {add_candidate, candidate_list, get_candidate,get_update_candidate, edit_canididate, put_update_candidate} = require('../controllers/candidate');
 
 const storage = multer.diskStorage({
   destination : (req, file, cb)=>{
@@ -32,76 +32,9 @@ router.get('/api/candidates', candidate_list);
 
 router.get('/api/candidates/:id', get_candidate);
 
-router.put('/api/candidates/:id', upload.single('resume'), async (req, res) => {
-  try {
-    const candidateId = req.params.id;
-    const {
-      first_name,
-      last_name,
-      email_id,
-      contact_no,
-      qualification,
-      location,
-      gitlink,
-      source,
-      emp_id,
-      role,
-      company,
-      designation,
-      experience,
-      notice_period,
-      sal_type,
-      current_salary,
-      expected_salary,
-      basic
-    } = req.body;
+router.put('/api/candidates/:id', upload.single('resume'),edit_canididate);
 
-    let skill_set = [];
-    try {
-      skill_set = basic ? JSON.parse(basic) : [];
-    } catch (e) {
-      skill_set = [];
-    }
+router.get('/api/update-candidate/:id', get_update_candidate);
 
-    const parsedEmpId = emp_id && !isNaN(emp_id) ? parseInt(emp_id, 10) : null;
-    const parsedExperience = experience && !isNaN(experience) ? parseFloat(experience) : null;
-    const parsedNoticePeriod = notice_period && !isNaN(Date.parse(notice_period)) ? new Date(notice_period) : null;
-    const parsedCurrentSalary = current_salary && !isNaN(current_salary) ? parseInt(current_salary, 10) : null;
-    const parsedExpectedSalary = expected_salary && !isNaN(expected_salary) ? parseInt(expected_salary, 10) : null;
-
-    const candidate = await candidates.findOne({ where: { candidate_id: candidateId } });
-    if (!candidate) return res.status(404).json({ message: 'Candidate not found' });
-
-    const resumepath = req.file ? req.file.path : candidate.resume;
-
-    await candidate.update({
-      first_name,
-      last_name,
-      email_id,
-      contact_no,
-      qualification,
-      location,
-      resume: resumepath,
-      gitlink,
-      source,
-      emp_id: parsedEmpId,
-      role,
-      company,
-      designation,
-      experience: parsedExperience,
-      notice_period: parsedNoticePeriod,
-      sal_type,
-      current_salary: parsedCurrentSalary,
-      expected_salary: parsedExpectedSalary,
-      skill_set
-    });
-
-    res.json({ message: 'Candidate updated successfully', candidate });
-  } catch (err) {
-    console.error('Error updating candidate:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-
+router.put('/api/update-candidate/:id', put_update_candidate);
 module.exports = router;

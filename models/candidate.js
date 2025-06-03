@@ -53,7 +53,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   role: {
-    type: DataTypes.ENUM('App Developer','Full Stack Developer', 'Human Resource','Customer Trainer','Web/App Tester'),
+    type: DataTypes.ENUM('App Developer','Full Stack Developer', 'Human Resource','Customer Trainer','Web/App Tester','Admin'),
     allowNull: true,
   },
   company: {
@@ -124,9 +124,13 @@ const Candidates = sequelize.define('candidate', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  interview_date: {
+  interview_at: {
     type: DataTypes.DATE,
     allowNull: true,
+  },
+  interviewer:{
+    type: DataTypes.STRING(128),
+    allowNull: true
   },
   interview_status: {
     type: DataTypes.ENUM('Selected', 'Rejected', 'Pending', 'Re-interview'),
@@ -156,7 +160,7 @@ const Candidates = sequelize.define('candidate', {
     type: DataTypes.ENUM('Selected', 'Rejected', 'Pending'),
     allowNull: true,
   },
-  re_interview_date: {
+  re_interview_at: {
     type: DataTypes.DATE,
     allowNull: true,
   },
@@ -173,11 +177,15 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   reporting_location: {
-    type: DataTypes.ENUM('Coimbatore', 'Salem'),
+    type: DataTypes.ENUM('KT Telematic Solutions Pvt. Ltd, Coimbatore', 'KT Telematic Solutions Pvt. Ltd, Salem'),
+    allowNull: true,
+  },
+  document_verified:{
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
   onboarding_status: {
-    type: DataTypes.ENUM ('Completed', 'Pending', 'Withdrawn', 'Rejected'),
+    type: DataTypes.ENUM('Onboarded', 'Pending', 'Withdrawn', 'Rejected'),
     allowNull: true,
   },
   follow_up_date: {
