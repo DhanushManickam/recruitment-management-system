@@ -3,7 +3,7 @@ const candidates = require('../models/candidate');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const {add_candidate, candidate_list, get_candidate,get_update_candidate, edit_canididate, put_update_candidate} = require('../controllers/candidate');
+const {add_candidate, candidate_list, get_candidate,get_update_candidate, edit_canididate, put_update_candidate, delete_candidate} = require('../controllers/candidate');
 
 const storage = multer.diskStorage({
   destination : (req, file, cb)=>{
@@ -37,4 +37,6 @@ router.put('/api/candidates/:id', upload.single('resume'),edit_canididate);
 router.get('/api/update-candidate/:id', get_update_candidate);
 
 router.put('/api/update-candidate/:id', put_update_candidate);
+
+router.delete('/api/delete-candidate/:id',delete_candidate);
 module.exports = router;

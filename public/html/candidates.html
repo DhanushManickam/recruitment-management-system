@@ -17,8 +17,8 @@
     <div class="main-navbar">
         <nav>
             <a href="#">Dashboard</a>
-            <a href="#" id="present">Candidate List</a>
-            <a href="/employees">Employee List</a> 
+            <a href="#" id="present">Candidates</a>
+            <a href="/employees">Employees</a> 
         </nav>
     </div>
     <div class="content">
@@ -141,10 +141,10 @@
                           <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">Task Status</a>
                       </li>
                       <li class="nav-item">
-                          <a href="#tab2" class="nav-link" data-bs-toggle="tab" role="tab">Interview</a>
+                          <a href="#tab2" class="nav-link interview" data-bs-toggle="tab" role="tab" style="display: none;">Interview</a>
                       </li>
                       <li class="nav-item">
-                          <a href="#tab3" class="nav-link" data-bs-toggle="tab" role="tab">Onboard</a>
+                          <a href="#tab3" class="nav-link candidate-onboard" data-bs-toggle="tab" role="tab" style="display: none;">Onboard</a>
                       </li>
                   </ul>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -173,7 +173,7 @@
                                   <label for="status" class="form-label">Status</label>
                                   <select class="form-select" id="status" name="task_status" onchange="toggleOtherField()">
                                       <option value="Completed">Completed</option>
-                                      <option value="Pending">Pending</option>
+                                      <option value="Pending" selected>Pending</option>
                                       <option value="Rejected">Rejected</option>
                                       <option value="Task Rework">Task Rework</option>
                                   </select>
@@ -188,7 +188,7 @@
                               </div>
                               <div class="mb-3 otherField" style="display: none;">
                                 <label for="rework_status" class="form-label">Status</label>
-                                  <select class="form-select" id="rework_status" name="rework_status">
+                                  <select class="form-select" id="rework_status" name="rework_status" onchange="interviewtab()">
                                       <option value="Completed">Completed</option>
                                       <option value="Pending" selected>Pending</option>
                                       <option value="Rejected">Rejected</option>
@@ -258,7 +258,7 @@
                                   <select class="form-select" id="result" name="interview_status" onchange="onreinterview()">
                                       <option value="Selected">Selected</option>
                                       <option value="Rejected">Rejected</option>
-                                      <option value="Pending">Pending</option>
+                                      <option value="Pending" selected>Pending</option>
                                       <option value="Re-interview">Re-Interview</option>
                                   </select>
                               </div>
@@ -271,7 +271,7 @@
                                   <select class="form-select" id="re-result" name="re_interview" onchange="onreinterview()">
                                       <option value="Selected">Selected</option>
                                       <option value="Rejected">Rejected</option>
-                                      <option value="Pending">Pending</option>
+                                      <option value="Pending" selected>Pending</option>
                                   </select>
                               </div>
                               <div class="re-interview  align-items-center justify-content-between mb-3 " style="display: none;">
@@ -322,7 +322,7 @@
                                   <select name="onboarding_status" id="onboardStatus" class="form-select">
                                     <option value=""select hidden></option>
                                     <option value="Onboarded">Onboarded</option>
-                                    <option value="Pending">Pending</option>
+                                    <option value="Pending" selected>Pending</option>
                                     <option value="Withdrawn">Withdrawn</option>
                                     <option value="Rejected">Rejected</option>
                                   </select>

@@ -20,7 +20,9 @@ module.exports.add_candidate = async (req, res) => {
       sal_type,
       current_salary,
       expected_salary,
-      basic
+      basic,
+      current_status,
+      follow_up_date
     } = req.body;
 
     let skill_set = [];
@@ -35,13 +37,11 @@ module.exports.add_candidate = async (req, res) => {
     const parsedNoticePeriod = notice_period && !isNaN(Date.parse(notice_period)) ? new Date(notice_period) : null;
     const parsedCurrentSalary = current_salary && !isNaN(current_salary) ? parseInt(current_salary, 10) : null;
     const parsedExpectedSalary = expected_salary && !isNaN(expected_salary) ? parseInt(expected_salary, 10) : null;
-
-    const maxId = await candidates.max('candidate_id');
-    const newId = maxId ? maxId + 1 : 1;
     const resumepath = req.file ? req.file.path : null;
+    const currentStatus = 'Waiting for task';
+    const followUpDate = new Date().toISOString().split('T')[0];
 
-    await candidates.create({
-      candidate_id: newId,
+    await candidates.create({ 
       first_name,
       last_name,
       email_id,
@@ -60,10 +60,12 @@ module.exports.add_candidate = async (req, res) => {
       sal_type: sal_type || null,
       current_salary: parsedCurrentSalary,
       expected_salary: parsedExpectedSalary,
-      skill_set
+      skill_set,
+      current_status : currentStatus,
+      follow_up_date : followUpDate
     });
 
-    console.log(`Candidate #${newId} added successfully`);
+    console.log(`Candidate added successfully`);
     return res.redirect('/candidate');
   } catch (err) {
     console.error('Error creating candidate:', err);
@@ -78,7 +80,7 @@ module.exports.candidate_list  =  async (req, res) => {
     const Candidates = await candidates.findAll();
 
     if (Candidates.length === 0) {
-      return res.status(404).json({ message: 'No candidates found' });
+      return;
     }
     res.json(Candidates);
 
@@ -221,7 +223,10 @@ module.exports.put_update_candidate = async(req,res) =>{
       reporting_time,
       reporting_location,
       document_verified,
-      onboarding_status
+      onboarding_status,
+      current_salary,
+      follow_up_date
+
     } = req.body;
 
     const candidate = await candidates.findOne({where: {candidate_id : candidateId}});
@@ -236,7 +241,63 @@ module.exports.put_update_candidate = async(req,res) =>{
     const reportingDate = reporting_date && !isNaN(Date.parse(reporting_date)) ? new Date(reporting_date) : null;
     const reportingTime = reporting_time && reporting_time.trim() !== '' ? reporting_time : null;
     const onboardingStatus = (onboarding_status ==="") ? null : onboarding_status;
-    console.log("Onboarding"+onboardingStatus);
+
+    const toNullIfEmpty = (val) => (val === '' ? null : val);
+    let expectedSalary = toNullIfEmpty(expected_salary);
+    let technicalSkills = toNullIfEmpty(technical_skills);
+    let communicationSkills = toNullIfEmpty(communication_skills);
+    let problemSolving = toNullIfEmpty(problem_solving);
+    let overallratings = toNullIfEmpty(overall_ratings);
+    let reInterviewRatings = toNullIfEmpty(re_interview_ratings);
+
+    let followUpDate = new Date(candidate.createdAt)
+    let today = new Date();
+    
+    let status = 'Waiting for task';
+    if(reportingDate && new Date(reportingDate) < today && onboardingStatus ==='Onboarded'){  
+      status = 'Candidate oboarded';
+    }
+    else if((onboardingStatus === null || onboardingStatus ==='Pending') && (document_verified === null || document_verified === false) && (interview_status ==='Selected' || (re_interview ==='Selected'))){
+      status = 'Document not verified';
+    }
+    else if((interview_status ==='Selected' || re_interview === 'Selected') && (onboardingStatus === 'Pending' || onboardingStatus === null) && (document_verified === true) ){
+      status = 'Waiting for onboard';
+      followUpDate = new Date(reporting_date);
+    }
+    else if(reInterviewAt && new Date(reInterviewAt) < today && (re_interview === null || re_interview === 'Pending') && interview_status ==='Re-interview'){
+      status = 'Waiting for Re-interview result'
+    }
+    else if(reInterviewAt && new Date(reInterviewAt) > today && (re_interview === null || re_interview === 'Pending') && interview_status ==='Re-interview'){
+      status = 'Waiting for re-interview';
+      followUpDate = new Date(reInterviewAt);
+    }
+    else if(interviewAt && new Date(interviewAt) <= today && (interview_status === null || interview_status === 'Pending') && (task_status ==='Completed' || rework_status ==='Completed')){
+      status = 'Waiting for interview result';
+    } 
+    else if( interviewAt && new Date(interviewAt) > today && (task_status ==='Completed' || rework_status ==='Completed')){
+      status = 'Waiting for interview';
+      followUpDate = new Date(interviewAt);
+    }
+    else if(interviewAt === null && (task_status ==='Completed' || rework_status ==='Completed')){
+      status = 'waiting for Schedule interview';
+    }
+    else if(reworkDeadline && new Date(reworkDeadline) <= today && (rework_status === null || rework_status === 'Pending') &&  task_status ==='Task Rework'){
+      status = 'Waiting for rework result';
+    }
+    else if(reworkAssigned && reworkDeadline && new Date(reworkAssigned) >= today && new Date(reworkDeadline) > today && task_status ==='Task Rework'){
+      status = 'Task rework assingned';
+      followUpDate = new Date(reworkDeadline);
+    }
+    else if(deadLine && new Date(deadLine) <= today && (task_status === null || task_status === 'Pending')){
+      status = 'Waiting for task result';
+    }
+    else if(new Date(assignedDate) >= today && assignedDate){
+      status = 'Task assigned';
+      followUpDate = new Date(deadLine);
+    }
+    followUpDate = followUpDate.toISOString().split('T')[0];
+    console.log(reInterviewAt);
+    
 
     await candidate.update({
       task_name,
@@ -252,18 +313,20 @@ module.exports.put_update_candidate = async(req,res) =>{
       interview_status,
       re_interview_at : reInterviewAt,
       re_interview,
-      technical_skills,
-      communication_skills,
-      problem_solving,
-      overall_ratings,
-      re_interview_ratings,
+      technical_skills : technicalSkills,
+      communication_skills : communicationSkills,
+      problem_solving : problemSolving,
+      overall_ratings : overallratings,
+      re_interview_ratings : reInterviewRatings,
       interview_remark,
-      expected_salary,
+      expected_salary : expectedSalary,
       reporting_date : reportingDate,
       reporting_time : reportingTime,
       reporting_location,
       document_verified,
-      onboarding_status : onboardingStatus
+      onboarding_status : onboardingStatus,
+      current_status : status,
+      follow_up_date : followUpDate
     })
 
     res.json({message: "Candidate updated successfully", candidate});
@@ -271,5 +334,22 @@ module.exports.put_update_candidate = async(req,res) =>{
   catch(err){
     console.error("Error in candidate updating"+err);
     res.status(500).send('Server Error');
+  }
+}
+
+module.exports.delete_candidate = async(req,res)=>{
+  try{
+    const candidateId = req.params.id;
+    if(!candidateId) return res.status(404).json({message: "Candidate id not found to delete"})
+    const {deleted_at} = req.body; 
+
+    const candidate = await candidates.findOne({where:{candidate_id : candidateId}});
+    if(!candidate) return res.status(404).json({message: "Candidate not found to delete"});
+    await candidate.destroy();
+    res.json({message: "candidate deleted,", candidate});
+  }
+  catch(err){
+    console.error(err);
+    res.status(500).send("server Error");
   }
 }

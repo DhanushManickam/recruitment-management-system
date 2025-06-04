@@ -188,8 +188,12 @@ const Candidates = sequelize.define('candidate', {
     type: DataTypes.ENUM('Onboarded', 'Pending', 'Withdrawn', 'Rejected'),
     allowNull: true,
   },
+  current_status:{
+    type: DataTypes.STRING(255),
+    allowNull: true
+  },
   follow_up_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   overall_remark: {
@@ -199,7 +203,7 @@ const Candidates = sequelize.define('candidate', {
 },
 {
     paranoid : true,
-    deletedAt : "Deleted_time"
+    deletedAt : "deleted_at"
 }
 );
 

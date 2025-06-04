@@ -3,19 +3,14 @@
         .then((response) => response.json())
         .then((candidates) => {
           candidates.forEach((candidate, index) => {
-            let follow_up_date = candidate.followUp
-              ? candidate.followUp
-              : new Date(candidate.createdAt).toISOString().split('T')[0];
-            let status = candidate.status ? candidate.status : 'Waiting for Task';
-
             $('#candidateTable tbody').append(`
               <tr>
                 <td>${index + 1}</td>
                 <td>${candidate.first_name} ${candidate.last_name}</td>
                 <td>${candidate.role}</td>
                 <td>${candidate.experience}</td>
-                <td>${follow_up_date}</td>
-                <td>${status}</td>
+                <td>${candidate.follow_up_date}</td>
+                <td>${candidate.current_status}</td>
                 <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i> Edit</a> 
                 <a href="#" class="updatebtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-tasks"></i> Update</a>
                 <a href="#" class="deletebtn btn btn-danger" data-id="${candidate.candidate_id}"><i class="fa fa-trash"></i> Delete</a></td>
@@ -72,23 +67,15 @@
                 if(candidate.sal_type === 'Monthly'){
                   salary = salary * 12;
                 }
-                function addday(today){
-                  let newdate = new Date(today);
-                  newdate.setDate(newdate.getDate() + 15);
-                  return newdate.toISOString().split('T')[0];
-                }
+                
                 const interviewAt = candidate.interview_at ? new Date(candidate.interview_at).toISOString().slice(0, 16) : '';
                 const reInterviewAt = candidate.re_interview_at ? new Date(candidate.re_interview_at).toISOString().slice(0, 16) : '';
-                if(candidate.assigned_date)
-                  var deadline = addday(candidate.assigned_date);
-                if(candidate.rework_assigned)
-                  var redeadline = addday(candidate.rework_assigned);
                 $('#updateModal #taskName').val(candidate.task_name || '');
                 $('#updateModal #assignedDate').val(candidate.assigned_date ||'');
-                $('#updateModal #deadlineDate').val(deadline || '');
-                $('#updateModal #status').val(candidate.task_status || '');
+                $('#updateModal #deadlineDate').val(candidate.deadline || '');
+                $('#updateModal #status').val(candidate.task_status || '').get(0).dispatchEvent(new Event("change"));
                 $('#updateModal #reworkAssignDate').val(candidate.rework_assigned || '');
-                $('#updateModal #reworkDeadlineDate').val(redeadline || '');
+                $('#updateModal #reworkDeadlineDate').val(candidate.rework_deadline || '');
                 $('#updateModal #rework_status').val(candidate.rework_status);
                 $('#updateModal #remark1').val(candidate.task_remark || '');
                 $('#updateModal #interviewer').val(candidate.interviewer ||'')

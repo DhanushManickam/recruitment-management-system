@@ -34,7 +34,7 @@ Candidates.addHook('afterCreate', async (candidate, options) => {
 });
 
 Candidates.addHook('beforeDestroy',async (candidate, options) =>{
-    const old_data = Candidates.findByPk(candidate.candidate_id);
+    const old_data = await Candidates.findByPk(candidate.candidate_id);
     const modifiedBy  =  1; 
 
     await Audit_log.create({
