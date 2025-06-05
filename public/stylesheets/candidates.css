@@ -350,3 +350,10 @@ th.sorting_desc::after {
 .rating:hover>input:checked~label:before {
     opacity: 0.4
 }
+#updateModal input, #updateModal select,#updateModal textarea{
+    border: 0.5px solid #656565;
+}
+
+#updateModal #submitBtn{
+    background-color: #37CAB5;
+}

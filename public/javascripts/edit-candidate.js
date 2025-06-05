@@ -51,8 +51,6 @@ fetch('../html/edit-candidate.html')
         });
 
         if (!response.ok) throw new Error('Update failed');
-
-        const data = await response.json();
         alert('Candidate updated successfully!');
         document.getElementById('editModal').style.display = 'none';
         location.reload();

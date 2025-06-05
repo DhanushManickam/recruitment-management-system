@@ -79,9 +79,6 @@ module.exports.candidate_list  =  async (req, res) => {
   try {
     const Candidates = await candidates.findAll();
 
-    if (Candidates.length === 0) {
-      return;
-    }
     res.json(Candidates);
 
   } catch (err) {
@@ -224,9 +221,6 @@ module.exports.put_update_candidate = async(req,res) =>{
       reporting_location,
       document_verified,
       onboarding_status,
-      current_salary,
-      follow_up_date
-
     } = req.body;
 
     const candidate = await candidates.findOne({where: {candidate_id : candidateId}});
@@ -240,7 +234,7 @@ module.exports.put_update_candidate = async(req,res) =>{
     const reInterviewAt = re_interview_at && !isNaN(Date.parse(re_interview_at)) ? new Date(re_interview_at) : null;
     const reportingDate = reporting_date && !isNaN(Date.parse(reporting_date)) ? new Date(reporting_date) : null;
     const reportingTime = reporting_time && reporting_time.trim() !== '' ? reporting_time : null;
-    const onboardingStatus = (onboarding_status ==="") ? null : onboarding_status;
+    const onboardingStatus = (onboarding_status ==='') ? null : onboarding_status;
 
     const toNullIfEmpty = (val) => (val === '' ? null : val);
     let expectedSalary = toNullIfEmpty(expected_salary);
@@ -254,41 +248,44 @@ module.exports.put_update_candidate = async(req,res) =>{
     let today = new Date();
     
     let status = 'Waiting for task';
-    if(reportingDate && new Date(reportingDate) < today && onboardingStatus ==='Onboarded'){  
-      status = 'Candidate oboarded';
+    if(onboardingStatus ==='Onboarded'){  
+      status = 'Candidate onboarded';
     }
-    else if((onboardingStatus === null || onboardingStatus ==='Pending') && (document_verified === null || document_verified === false) && (interview_status ==='Selected' || (re_interview ==='Selected'))){
+    else if((onboardingStatus === null || onboardingStatus ==='Pending') && (document_verified === undefined || document_verified === false) && (interview_status ==='Selected' || (re_interview ==='Selected'))){
       status = 'Document not verified';
     }
-    else if((interview_status ==='Selected' || re_interview === 'Selected') && (onboardingStatus === 'Pending' || onboardingStatus === null) && (document_verified === true) ){
+    else if(reportingDate &&(interview_status ==='Selected' || re_interview === 'Selected') && (onboardingStatus === 'Pending' || onboardingStatus === null)){
       status = 'Waiting for onboard';
       followUpDate = new Date(reporting_date);
     }
-    else if(reInterviewAt && new Date(reInterviewAt) < today && (re_interview === null || re_interview === 'Pending') && interview_status ==='Re-interview'){
+    else if((interview_status ==='Selected' || re_interview === 'Selected') && (onboardingStatus === 'Pending' || onboardingStatus === null)){
+      status = 'Onboarding not scheduled';
+    }
+    else if(reInterviewAt && new Date(reInterviewAt) < today && (re_interview === undefined || re_interview === 'Pending') && interview_status ==='Re-interview'){
       status = 'Waiting for Re-interview result'
     }
-    else if(reInterviewAt && new Date(reInterviewAt) > today && (re_interview === null || re_interview === 'Pending') && interview_status ==='Re-interview'){
+    else if(reInterviewAt && new Date(reInterviewAt) > today && (re_interview === undefined || re_interview === 'Pending') && interview_status ==='Re-interview'){
       status = 'Waiting for re-interview';
       followUpDate = new Date(reInterviewAt);
     }
-    else if(interviewAt && new Date(interviewAt) <= today && (interview_status === null || interview_status === 'Pending') && (task_status ==='Completed' || rework_status ==='Completed')){
+    else if(interviewAt && new Date(interviewAt) <= today && (interview_status === undefined || interview_status === 'Pending') && (task_status ==='Completed' || rework_status ==='Completed')){
       status = 'Waiting for interview result';
     } 
     else if( interviewAt && new Date(interviewAt) > today && (task_status ==='Completed' || rework_status ==='Completed')){
       status = 'Waiting for interview';
       followUpDate = new Date(interviewAt);
     }
-    else if(interviewAt === null && (task_status ==='Completed' || rework_status ==='Completed')){
+    else if(interviewAt === undefined && (task_status ==='Completed' || rework_status ==='Completed')){
       status = 'waiting for Schedule interview';
     }
-    else if(reworkDeadline && new Date(reworkDeadline) <= today && (rework_status === null || rework_status === 'Pending') &&  task_status ==='Task Rework'){
+    else if(reworkDeadline && new Date(reworkDeadline) <= today && (rework_status === undefined || rework_status === 'Pending') &&  task_status ==='Task Rework'){
       status = 'Waiting for rework result';
     }
     else if(reworkAssigned && reworkDeadline && new Date(reworkAssigned) >= today && new Date(reworkDeadline) > today && task_status ==='Task Rework'){
       status = 'Task rework assingned';
       followUpDate = new Date(reworkDeadline);
     }
-    else if(deadLine && new Date(deadLine) <= today && (task_status === null || task_status === 'Pending')){
+    else if(deadLine && new Date(deadLine) <= today && (task_status === undefined || task_status === 'Pending')){
       status = 'Waiting for task result';
     }
     else if(new Date(assignedDate) >= today && assignedDate){
@@ -296,8 +293,7 @@ module.exports.put_update_candidate = async(req,res) =>{
       followUpDate = new Date(deadLine);
     }
     followUpDate = followUpDate.toISOString().split('T')[0];
-    console.log(reInterviewAt);
-    
+    console.log((onboardingStatus === 'Pending' || !onboardingStatus === null));    
 
     await candidate.update({
       task_name,

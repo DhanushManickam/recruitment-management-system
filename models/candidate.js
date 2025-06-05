@@ -64,9 +64,19 @@ const Candidates = sequelize.define('candidate', {
     type: DataTypes.STRING(64),
     allowNull: true,
   },
-  experience: {
-    type: DataTypes.DECIMAL(3, 1),
-    allowNull: true,
+  experience_year: {
+    type: DataTypes.INTEGER,
+    validate: {
+        min: 0,
+        max: 255 
+    }
+  },
+  experience_month:{
+    type: DataTypes.INTEGER,
+    validate: {
+        min: 0,
+        max: 255 
+    }
   },
   notice_period: {
     type: DataTypes.DATEONLY,

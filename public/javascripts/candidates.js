@@ -2,8 +2,11 @@
       fetch('/api/candidates')
         .then((response) => response.json())
         .then((candidates) => {
+          let rows = '';
+          
+          // Retrieving all candidates data and display in candidates page
           candidates.forEach((candidate, index) => {
-            $('#candidateTable tbody').append(`
+            rows += (`
               <tr>
                 <td>${index + 1}</td>
                 <td>${candidate.first_name} ${candidate.last_name}</td>
@@ -11,20 +14,15 @@
                 <td>${candidate.experience}</td>
                 <td>${candidate.follow_up_date}</td>
                 <td>${candidate.current_status}</td>
-                <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i> Edit</a> 
-                <a href="#" class="updatebtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-tasks"></i> Update</a>
-                <a href="#" class="deletebtn btn btn-danger" data-id="${candidate.candidate_id}"><i class="fa fa-trash"></i> Delete</a></td>
+                <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i></a> 
+                <a href="#" class="updatebtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-tasks"></i></a>
+                <a href="#" class="deletebtn btn btn-danger" data-id="${candidate.candidate_id}"><i class="fa fa-trash"></i></a></td>
               </tr>
             `);
           });
+          document.querySelector('tbody').innerHTML  = rows;
 
-          $('#candidateTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-          });
-
+          $('#candidateTable').DataTable();
           $('#candidateTable').on('click', '.editbtn', function (e) {
             e.preventDefault();
             const candidateId = $(this).data('id');
@@ -63,17 +61,17 @@
             fetch(`/api/update-candidate/${candidateId}`)
               .then((response) => response.json())
               .then((candidate) => {
+                
                 let salary = candidate.expected_salary;
                 if(candidate.sal_type === 'Monthly'){
                   salary = salary * 12;
                 }
-                
                 const interviewAt = candidate.interview_at ? new Date(candidate.interview_at).toISOString().slice(0, 16) : '';
                 const reInterviewAt = candidate.re_interview_at ? new Date(candidate.re_interview_at).toISOString().slice(0, 16) : '';
                 $('#updateModal #taskName').val(candidate.task_name || '');
                 $('#updateModal #assignedDate').val(candidate.assigned_date ||'');
                 $('#updateModal #deadlineDate').val(candidate.deadline || '');
-                $('#updateModal #status').val(candidate.task_status || '').get(0).dispatchEvent(new Event("change"));
+                $('#updateModal #status').val(candidate.task_status || '')
                 $('#updateModal #reworkAssignDate').val(candidate.rework_assigned || '');
                 $('#updateModal #reworkDeadlineDate').val(candidate.rework_deadline || '');
                 $('#updateModal #rework_status').val(candidate.rework_status);
@@ -89,7 +87,7 @@
                 $(`#updateModal input[name="overall_ratings"][value="${parseInt(candidate.overall_ratings)}"]`).prop("checked", true);
                 $(`#updateModal input[name="re_interview_ratings"][value="${parseInt(candidate.re_interview_ratings)}"]`).prop("checked", true);
                 $('#updateModal #remark2').val(candidate.interview_remark||'');
-                $('#updateModal #esalary').val(salary||'');
+                $('#updateModal #esalary').val(candidate.expected_salary||'');
                 $('#updateModal #onboardDate').val(candidate.reporting_date||'');
                 $('#updateModal #report_time').val(candidate.reporting_time||'');
                 $('#updateModal #location').val(candidate.reporting_location||'');

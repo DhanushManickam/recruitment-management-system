@@ -19,9 +19,12 @@ fetch('../html/add-candidate.html')
     window.addEventListener('click', e => {
       if (e.target === modal) modal.style.display = 'none';
     });
-
-    const skillInput = document.querySelector("input[name='basic']");
-    new Tagify(skillInput);
+    setTimeout(() => {
+      const skillInput = document.querySelector("input[name='basic']");
+      if (skillInput && !skillInput._tagify) {
+        new Tagify(skillInput);
+      }
+    }, 50);
 });
 
 function toggleOtherInput() {

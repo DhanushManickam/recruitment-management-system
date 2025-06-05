@@ -8,12 +8,12 @@
 
                     <div class="rows">
                         <div class="field">
-                            <label><span><i class="fa-regular fa-user"></i> First name* </span></label>
+                            <label><span><i class="fa-regular fa-user"></i> First Name* </span></label>
                             <input type="text" id="fname" name="first_name" required autocomplete="off">
                         </div>
             
                         <div class="field">
-                            <label><span><i class="fa-regular fa-user"></i> Last name* </span></label>
+                            <label><span><i class="fa-regular fa-user"></i> Last Name* </span></label>
                             <input type="text" id="lname" name="last_name" required autocomplete="off">
                         </div>
                     </div>
@@ -22,12 +22,12 @@
                 
                 <div class="rows">
                     <div class="field">
-                        <label><span><i class="fa-regular fa-envelope"></i> Email id* </span></label>
+                        <label><span><i class="fa-regular fa-envelope"></i> Email Id* </span></label>
                         <input type="email" id="email" name="email_id" required autocomplete="off">
                     </div>
                     
                     <div class="field">
-                        <label><span><i class="fa-solid fa-phone"></i> Phone no* </span></label>
+                        <label><span><i class="fa-solid fa-phone"></i> Phone Number* </span></label>
                         <input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required autocomplete="off">
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     </div>
                     
                     <div class="field">
-                        <label><span><i class="fa-solid fa-link"></i> GitHub link</span></label>
+                        <label><span><i class="fa-solid fa-link"></i> GitHub Link</span></label>
                         <input type="text" name="gitlink" id="gitlink">
                     </div>
                 </div>
@@ -72,7 +72,7 @@
         
                     <div class="field" id="referral_field" style="display: none;">
                         <label for="referral">
-                        <span><i class="fa fa-user"></i> Employee id</span>
+                        <span><i class="fa fa-user"></i> Referral Employee Id</span>
                         </label>
                         <input type="number" name="emp_id" id="emp_id">
                     </div>
@@ -82,7 +82,7 @@
                 <p>Professional details</p>
                 <div class="rows">
                     <div class="field">
-                        <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role</span></label>
+                        <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role Applied For</span></label>
                         <select name="role" id="Role">
                             <option value="none" disabled selected>Select Role</option>
                             <option value="App Developer">App Developer</option>
@@ -99,24 +99,27 @@
                 </div>
                 <div class="rows">
                     <div class="field">
-                        <label><span><i class="fa-solid fa-briefcase"></i> Designation</span></label>
+                        <label><span><i class="fa-solid fa-briefcase"></i> Current Designation</span></label>
                         <input type="text" name="designation" id="designation" >
                     </div>
                     <div class="field">
                         <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span></label>
-                        <input type="number" name="experience" id="experience" step=".1">
+                        <div class="exp">
+                            <span>Year</span><input type="number" name="experience" id="experience_year" step="1" max="100" min="0" maxlength="3">
+                            <span>Month</span><input type="number" name="experience" id="experience_month" step="1" max="12" min="0" maxlength="2">
+                        </div>
                     </div>
                 </div>
                 
                 <div class="rows">
                     <div class="field">
-                        <label><span><i class="fa-solid fa-calendar-days"></i> Notice period</span></label>
+                        <label><span><i class="fa-solid fa-calendar-days"></i> Notice Period</span></label>
                         <input type="date" name="notice_period" id="notice_period">
                     </div>
         
                     <div class="field">
                         <label for="sal_type" >
-                            <i class="fa-solid fa-wallet"></i> Salary type
+                            <i class="fa-solid fa-wallet"></i> Current Salary Type
                             
                         </label>
                         <div class="radio" >
@@ -140,7 +143,7 @@
                 <div class="rows">
                     <div class="field">
                         <label id="skill">
-                        <span><i class="fa fa-list"></i> Skill sets</span> <input type="text" id="skills" name='basic' autofocus>
+                        <span><i class="fa fa-list"></i> Skill Sets</span> <input type="text" id="skills" name='basic' autofocus>
                         </label>
                     </div>
                 </div>

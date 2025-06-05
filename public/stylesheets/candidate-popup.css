@@ -10,10 +10,10 @@
 
 .modal-content {
     background: white;
-    padding: 20px;
+    padding: 20px 40px 20px 40px;
     margin: 4% auto;
     width: 90%;
-    max-width: 800px;
+    max-width: 950px;
     max-height: 80vh;   
     overflow-y: auto;
     border-radius: 10px;
@@ -36,7 +36,7 @@ form .fixed{
     background-color: #fff;
     position: sticky;
     top: -20px;
-    width: 725px;
+    width: 835px;
     height: 85px;
 }
 
@@ -61,24 +61,24 @@ form .rows{
 #addcandidateForm .field {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
 }
 
 #addcandidateForm #line{
     margin: 5px 0px 5px 0px;
-    width: 725px;
+    width: 875;
     height: 1px;
     background-color: #656565;
 }
 #editcandidateForm .field {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
 }
 
 #editcandidateForm #line{
     margin: 5px 0px 5px 0px;
-    width: 725px;
+    width: 875px;
     height: 1px;
     background-color: #656565;
 }
@@ -96,7 +96,7 @@ form .rows{
     border-radius: 5px;
     border: 0.5px solid #656565;
     padding: 5px 5px 5px 10px;
-    width: 300px;
+    width: 350px;
 }
 
 .field select{
@@ -114,7 +114,7 @@ form .rows{
 #skill .tagify {
     border-radius: 5px;
     border: 0.5px solid #656565;
-    width: 725px;
+    width: 835px;
 }
 
 form button {
@@ -133,6 +133,7 @@ form button:hover{
 form .final{
     display: flex;
     gap: 20px;
+    justify-content: end;
 }
 
 .field input[type="file"]::file-selector-button {
@@ -142,4 +143,15 @@ form .final{
     margin-top: 2px;
     color: #1302ff;
     text-decoration: underline;
+}
+.exp{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 350px;
+    align-items: center;
+}
+.exp input{
+    width: 120px;
+    height: 30px ;
 }
