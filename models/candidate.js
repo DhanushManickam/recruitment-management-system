@@ -98,6 +98,18 @@ const Candidates = sequelize.define('candidate', {
     type: DataTypes.JSON,
     allowNull: true,
   },
+  pre_intv_at :{
+    type : DataTypes.DATE,
+    allowNull : true
+  },
+  pre_intv_status :{
+    type : DataTypes.ENUM('Needs task', 'Direct interview','Rejected'),
+    allowNull : true
+  },
+  pre_intv_remark:{
+    type : DataTypes.TEXT,
+    allowNull : true,
+  },
   task_name: {
     type: DataTypes.STRING(64),
     allowNull : true
@@ -112,10 +124,6 @@ const Candidates = sequelize.define('candidate', {
   },
   deadline: {
     type: DataTypes.DATEONLY,
-    allowNull: true,
-  },
-  task_rework: {
-    type: DataTypes.STRING(10),
     allowNull: true,
   },
   rework_status: {
@@ -188,6 +196,10 @@ const Candidates = sequelize.define('candidate', {
   },
   reporting_location: {
     type: DataTypes.ENUM('KT Telematic Solutions Pvt. Ltd, Coimbatore', 'KT Telematic Solutions Pvt. Ltd, Salem'),
+    allowNull: true,
+  },
+  verified_docs :{
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   document_verified:{

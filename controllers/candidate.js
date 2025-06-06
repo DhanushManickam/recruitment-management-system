@@ -1,3 +1,4 @@
+const { DATE } = require('sequelize');
 const candidates = require('../models/candidate');
 
 module.exports.add_candidate = async (req, res) => {
@@ -15,14 +16,13 @@ module.exports.add_candidate = async (req, res) => {
       role,
       company,
       designation,
-      experience,
+      experience_year,
+      experience_month,
       notice_period,
       sal_type,
       current_salary,
       expected_salary,
       basic,
-      current_status,
-      follow_up_date
     } = req.body;
 
     let skill_set = [];
@@ -33,11 +33,10 @@ module.exports.add_candidate = async (req, res) => {
     }
 
     const parsedEmpId = emp_id && !isNaN(emp_id) ? parseInt(emp_id, 10) : null;
-    const parsedExperience = experience && !isNaN(experience) ? parseFloat(experience) : null;
     const parsedNoticePeriod = notice_period && !isNaN(Date.parse(notice_period)) ? new Date(notice_period) : null;
     const parsedCurrentSalary = current_salary && !isNaN(current_salary) ? parseInt(current_salary, 10) : null;
     const parsedExpectedSalary = expected_salary && !isNaN(expected_salary) ? parseInt(expected_salary, 10) : null;
-    const resumepath = req.file ? req.file.path : null;
+    const resumepath = req.file ? `/uploads/${req.file.filename}` : null;
     const currentStatus = 'Waiting for task';
     const followUpDate = new Date().toISOString().split('T')[0];
 
@@ -55,7 +54,8 @@ module.exports.add_candidate = async (req, res) => {
       role: role || null,
       company: company || null,
       designation: designation || null,
-      experience: parsedExperience,
+      experience_year,
+      experience_month,
       notice_period: parsedNoticePeriod,
       sal_type: sal_type || null,
       current_salary: parsedCurrentSalary,
@@ -120,7 +120,8 @@ module.exports.edit_canididate =  async (req, res) => {
       role,
       company,
       designation,
-      experience,
+      experience_year,
+      experience_month,
       notice_period,
       sal_type,
       current_salary,
@@ -136,7 +137,6 @@ module.exports.edit_canididate =  async (req, res) => {
     }
 
     const parsedEmpId = emp_id && !isNaN(emp_id) ? parseInt(emp_id, 10) : null;
-    const parsedExperience = experience && !isNaN(experience) ? parseFloat(experience) : null;
     const parsedNoticePeriod = notice_period && !isNaN(Date.parse(notice_period)) ? new Date(notice_period) : null;
     const parsedCurrentSalary = current_salary && !isNaN(current_salary) ? parseInt(current_salary, 10) : null;
     const parsedExpectedSalary = expected_salary && !isNaN(expected_salary) ? parseInt(expected_salary, 10) : null;
@@ -144,7 +144,7 @@ module.exports.edit_canididate =  async (req, res) => {
     const candidate = await candidates.findOne({ where: { candidate_id: candidateId } });
     if (!candidate) return res.status(404).json({ message: 'Candidate not found' });
 
-    const resumepath = req.file ? req.file.path : candidate.resume;
+    const resumepath = req.file ? `/uploads/${req.file.filename}` : candidate.resume;
 
     await candidate.update({
       first_name,
@@ -160,7 +160,8 @@ module.exports.edit_canididate =  async (req, res) => {
       role,
       company,
       designation,
-      experience: parsedExperience,
+      experience_year,
+      experience_month,
       notice_period: parsedNoticePeriod,
       sal_type,
       current_salary: parsedCurrentSalary,
@@ -196,6 +197,9 @@ module.exports.put_update_candidate = async(req,res) =>{
   try{
     const candidateId = req.params.id;
     const{
+      pre_intv_at,
+      pre_intv_status,
+      pre_intv_remark,
       task_name,
       assigned_date ,
       deadline,
@@ -219,6 +223,7 @@ module.exports.put_update_candidate = async(req,res) =>{
       reporting_date,
       reporting_time,
       reporting_location,
+      verifieddocs,
       document_verified,
       onboarding_status,
     } = req.body;
@@ -234,6 +239,7 @@ module.exports.put_update_candidate = async(req,res) =>{
     const reInterviewAt = re_interview_at && !isNaN(Date.parse(re_interview_at)) ? new Date(re_interview_at) : null;
     const reportingDate = reporting_date && !isNaN(Date.parse(reporting_date)) ? new Date(reporting_date) : null;
     const reportingTime = reporting_time && reporting_time.trim() !== '' ? reporting_time : null;
+    const preIntvAT = pre_intv_at && !isNaN(DATE.parse(pre_intv_at)) ? new DATE(pre_intv_at) : null;
     const onboardingStatus = (onboarding_status ==='') ? null : onboarding_status;
 
     const toNullIfEmpty = (val) => (val === '' ? null : val);
@@ -243,6 +249,7 @@ module.exports.put_update_candidate = async(req,res) =>{
     let problemSolving = toNullIfEmpty(problem_solving);
     let overallratings = toNullIfEmpty(overall_ratings);
     let reInterviewRatings = toNullIfEmpty(re_interview_ratings);
+    console.log(verifieddocs);
 
     let followUpDate = new Date(candidate.createdAt)
     let today = new Date();
@@ -296,6 +303,9 @@ module.exports.put_update_candidate = async(req,res) =>{
     console.log((onboardingStatus === 'Pending' || !onboardingStatus === null));    
 
     await candidate.update({
+      pre_intv_at : preIntvAT,
+      pre_intv_status,
+      pre_intv_remark,
       task_name,
       assigned_date : assignedDate,
       deadline : deadLine,
@@ -319,6 +329,7 @@ module.exports.put_update_candidate = async(req,res) =>{
       reporting_date : reportingDate,
       reporting_time : reportingTime,
       reporting_location,
+      verified_docs : verifieddocs,
       document_verified,
       onboarding_status : onboardingStatus,
       current_status : status,

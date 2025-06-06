@@ -34,9 +34,9 @@
                 <div class="newcandidate" >
                     <a class="openAddModalLink" href="/api/add_candidate"> <i class="fa fa-add"></i> Add Candidate</a>
                 </div>
-                <div class="tableview">
+                <!-- <div class="tableview">
                     <a href="#" onclick="oncardview()"><i class="fa fa-address-card"></i> Card view</a>
-                </div>
+                </div> -->
             </div>
             
             
@@ -58,7 +58,7 @@
                 </table>
             </div>
 
-        <div class="candidates" id="cardview" style="display: none;">
+        <!-- <div class="candidates" id="cardview" style="display: none;">
             <div class="buttons">
                 <div class="newcandidate" >
                     <a class="openAddModalLink" href="/api/add_candidate"> <i class="fa fa-add"></i> Add Candidate</a>
@@ -88,7 +88,7 @@
 
                     <div>
                         <a href="/edit_candidate" class="editbtn openEditModalBtn"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa fa-tasks"></i> Update</a>
+                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal1"><i class="fa fa-tasks"></i> Update</a>
                     </div>
                 </div>
                 <div class="list">
@@ -106,7 +106,7 @@
 
                     <div>
                         <a href="/edit_candidate" class="editbtn openEditModalBtn"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa fa-tasks"></i> Update</a>
+                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal1"><i class="fa fa-tasks"></i> Update</a>
                     </div>
                 </div>
                 <div class="list">
@@ -124,13 +124,12 @@
 
                     <div>
                         <a href="/edit_candidate" class="editbtn openEditModalBtn"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa fa-tasks"></i> Update</a>
+                        <a href="#" class="btn updatebtn" data-bs-toggle="modal" data-bs-target="#updateModal1"><i class="fa fa-tasks"></i> Update</a>
                     </div>
                 </div>
                 
             </div>
-        </div>
-
+        </div> -->
 
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
@@ -138,13 +137,16 @@
               <div class="modal-header">
                   <ul class="nav nav-tabs" role="tablist">
                       <li class="nav-item">
-                          <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">Task</a>
+                          <a href="#tab1" class="nav-link active" data-bs-toggle="tab" role="tab">Preliminary Interview</a>
                       </li>
                       <li class="nav-item">
-                          <a href="#tab2" class="nav-link interview" data-bs-toggle="tab" role="tab" >Interview</a>
+                          <a href="#tab2" class="nav-link task" data-bs-toggle="tab" role="tab">Task</a>
                       </li>
                       <li class="nav-item">
-                          <a href="#tab3" class="nav-link candidate-onboard" data-bs-toggle="tab" role="tab" >Onboard</a>
+                          <a href="#tab3" class="nav-link interview" data-bs-toggle="tab" role="tab" >Interview</a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#tab4" class="nav-link candidate-onboard" data-bs-toggle="tab" role="tab" >Onboard</a>
                       </li>
                   </ul>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -152,7 +154,31 @@
               <div class="modal-body">
                 <form id="recruitment_form">
                   <div class="tab-content">
-                      <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                        <h5 class="modal-title">Preliminary Interview</h5>
+                        <div class="row">
+                            <div class=" mb-3 col-md-6">
+                                <label for="pre_intv_at" class="form-label">Preliminary Interview At</label>
+                                <input type="datetime-local" id="pre_intv_at" name="pre_intv_at" class="form-control">
+                            </div>
+                        <div class=" mb-3 col-md-6">
+                                <label for="pre_intv_status" class="form-label">Preliminary Interview Status</label>
+                                <select name="pre_intv_status" id="pre_intv_status" class="form-select">
+                                    <option value=""disabled selected></option>
+                                    <option value="Needs task">Needs Task</option>
+                                    <option value="Direct interview">Direct Interview</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb3">
+                                <label for="pre_intv_remark" class="form-label">Remark</label>
+                                <textarea name="pre_intv_remark" id="pre_intv_remark" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="tab-pane fade" id="tab2" role="tabpanel">
                           <h5 class="modal-title">Task Details</h5>
                             <div class="row">
                               <div class="mb-3 col-md-6">
@@ -205,7 +231,7 @@
                                   <textarea class="form-control" id="remark1" name="task_remark"></textarea>
                               </div>
                       </div>
-                      <div class="tab-pane fade" id="tab2" role="tabpanel"> 
+                      <div class="tab-pane fade" id="tab3" role="tabpanel"> 
                           <h5 class="modal-title">Interview Details</h5>
                           <div class="row">
                               <div class="mb-3 col-md-6">
@@ -306,7 +332,7 @@
                                   <textarea class="form-control" id="remark2" name="interview_remark"></textarea>
                               </div>
                       </div>
-                      <div class="tab-pane fade" id="tab3" role="tabpanel">
+                      <div class="tab-pane fade" id="tab4" role="tabpanel">
                           <h5 class="modal-title">Onboard Details</h5>
                           <div class="row">
                             <div class="mb-3 col-md-6">
@@ -396,14 +422,15 @@
                                 <div class="col-md-4">
                                     <input class="form-check-input" type="checkbox" name="documents" value="6_mon_bnk_statement" id="6_mon_bnk_statement">
                                     <label class="form-check-label" for="6_mon_bnk_statement">6 Month Bank Statement</label>
+                                    <input type="hidden" id="verifieddocs" name="verifieddocs">
                                 </div>
                             </div>
                             <div class="row">
                               <div class="mb-3 col-md-6 d-flex flex-column">
                                     <label class="form-label">Documents Verified</label>
                                     <div>
-                                        <input type="radio" name="document_verified" id="yes" value="true" class="btn-check"><label for="yes" class="btn btn-primary">YES</label>
-                                        <input type="radio" name="document_verified" id="no" value="false"class="ms-3 btn-check"><label for="no"  class="btn btn-primary">NO</label>
+                                        <input type="radio" name="document_verified" id="yes" value="true" class="btn-check"><label for="yes" class="btn doc_button">YES</label>
+                                        <input type="radio" name="document_verified" id="no" value="false"class="ms-3 btn-check"><label for="no"  class="btn doc_button">NO</label>
                                     </div>
                               </div>
                                  <div class="mb-3 col-md-6">

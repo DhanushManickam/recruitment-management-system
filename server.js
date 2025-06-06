@@ -8,6 +8,7 @@ const { Candidates, Audit_log, Employees } = require('./models');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const emp_route = require('./routes/employee');
 app.use('/', emp_route);

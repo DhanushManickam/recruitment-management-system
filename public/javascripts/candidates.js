@@ -11,7 +11,7 @@
                 <td>${index + 1}</td>
                 <td>${candidate.first_name} ${candidate.last_name}</td>
                 <td>${candidate.role}</td>
-                <td>${candidate.experience}</td>
+                <td>${candidate.experience_year} yrs ${candidate.experience_month} mos</td>
                 <td>${candidate.follow_up_date}</td>
                 <td>${candidate.current_status}</td>
                 <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i></a> 
@@ -23,36 +23,52 @@
           document.querySelector('tbody').innerHTML  = rows;
 
           $('#candidateTable').DataTable();
-          $('#candidateTable').on('click', '.editbtn', function (e) {
-            e.preventDefault();
-            const candidateId = $(this).data('id');
-            fetch(`/api/candidates/${candidateId}`)
-              .then((response) => response.json())
-              .then((candidate) => {
-                $('#editModal #fname').val(candidate.first_name || '');
-                $('#editModal #lname').val(candidate.last_name || '');
-                $('#editModal #email').val(candidate.email_id || '');
-                $('#editModal #phone_no').val(candidate.contact_no || '');
-                $('#editModal #qualification').val(candidate.qualification || '');
-                $('#editModal #location').val(candidate.location || '');
-                $('#editModal #gitlink').val(candidate.gitlink || '');
-                $('#editModal #source').val(candidate.source || '');
-                $('#editModal #emp_id').val(candidate.emp_id || '');
-                $('#editModal #role').val(candidate.role || '');
-                $('#editModal #company').val(candidate.company || '');
-                $('#editModal #designation').val(candidate.designation || '');
-                $('#editModal #experience').val(candidate.experience ||'');
-                $('#editModal #notice_period').val(candidate.notice_period || '');
-                $(`#editModal input[name="sal_type"][value="${candidate.sal_type}"]`).prop("checked", true);
-                $('#editModal #current_salary').val(candidate.current_salary || '');
-                $('#editModal #expected_salary').val(candidate.expected_salary || '');
-                $('#editModal #skills').val((candidate.skill_set || []).map(skill => Object.values(skill)[0]).join(', '));
-                $('#editModal #candidate_id').val(candidate.candidate_id);
+          document.querySelector('#candidateTable').addEventListener('click', async function (e) {
+            if (e.target.classList.contains('editbtn')) {
+              e.preventDefault();
+              const candidateId = e.target.getAttribute('data-id');
+              try {
+                const response = await fetch(`/api/candidates/${candidateId}`);
+                const candidate = await response.json();
+                document.querySelector('#editModal #fname').value= candidate.first_name || '';
+                document.querySelector('#editModal #lname').value= candidate.last_name || '';
+                document.querySelector('#editModal #email').value= candidate.email_id || '';
+                document.querySelector('#editModal #phone_no').value= candidate.contact_no || '';
+                document.querySelector('#editModal #qualification').value = candidate.qualification || '';
+                document.querySelector('#editModal #location').value = candidate.location || '';
+                document.querySelector('#editModal #gitlink').value =candidate.gitlink || '';
+                document.querySelector('#editModal #source').value = candidate.source || '';
+                document.querySelector('#editModal #emp_id').value = candidate.emp_id || '';
+                document.querySelector('#editModal #role').value = candidate.role || '';
+                document.querySelector('#editModal #company').value = candidate.company || '';
+                document.querySelector('#editModal #designation').value = candidate.designation || '';
+                document.querySelector('#editModal #experience_year').value = candidate.experience_year || '';
+                document.querySelector('#editModal #experience_month').value = candidate.experience_month || '';
+                document.querySelector('#editModal #notice_period').value = candidate.notice_period || '';
+                const salTypeInputs = document.querySelectorAll('#editModal input[name="sal_type"]');
+                salTypeInputs.forEach(input => {
+                  input.checked = input.value === candidate.sal_type;
+                });
+                document.querySelector('#editModal #current_salary').value = candidate.current_salary || '';
+                document.querySelector('#editModal #expected_salary').value = candidate.expected_salary || '';
+                const skillsInput = document.querySelector('#editModal #skills');
+                skillsInput.value = (candidate.skill_set || []).map(skill => Object.values(skill)[0]).join(', ');
+                document.querySelector('#editModal #candidate_id').value = candidate.candidate_id;
+                const resumeLink = document.querySelector('#editModal #resumeLink');
+                if (candidate.resume) {
+                  resumeLink.href = candidate.resume;
+                  resumeLink.target = '_blank';
+                  resumeLink.style.display = 'inline';
+                } else {
+                  resumeLink.style.display = 'none';
+                }
+
                 document.getElementById('editModal').style.display = 'block';
-              })
-              .catch((error) =>
-                console.error('Error fetching candidate details:', error)
-              );
+
+              } catch (error) {
+                console.error('Error fetching candidate details:', error);
+              }
+            }
           });
 
           $('#candidateTable').on('click', '.updatebtn', function (e) {

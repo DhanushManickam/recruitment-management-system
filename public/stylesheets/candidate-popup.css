@@ -155,3 +155,17 @@ form .final{
     width: 120px;
     height: 30px ;
 }
+.field a {
+  text-decoration: none;
+}
+
+#updateModal .doc_button{
+    background-color: #37CAB5;
+    color : black;
+}
+
+
+#updateModal .doc_button:active{
+    color: white;
+}
+

@@ -23,6 +23,13 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
   e.preventDefault();
   const form = document.getElementById("recruitment_form");
   const candidateId = document.getElementById('candidate_id').value;
+  let checkboxs = document.querySelectorAll('input[name = "documents"]:checked');
+  let verified_document = [];
+
+  checkboxs.forEach(checkbox => {
+    verified_document.push(checkbox.value);
+  });
+  document.getElementById('verifieddocs').value = verified_document.toString();
 
   if (!candidateId) {
     console.log("Candiate Not found");
