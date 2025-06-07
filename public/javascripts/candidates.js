@@ -24,9 +24,12 @@
 
           $('#candidateTable').DataTable();
           document.querySelector('#candidateTable').addEventListener('click', async function (e) {
-            if (e.target.classList.contains('editbtn')) {
+             const editButton = e.target.closest('.editbtn');
+              if (!editButton) return;
               e.preventDefault();
-              const candidateId = e.target.getAttribute('data-id');
+              const candidateId = editButton.getAttribute('data-id');
+              if (!candidateId) return;
+
               try {
                 const response = await fetch(`/api/candidates/${candidateId}`);
                 const candidate = await response.json();
@@ -68,55 +71,135 @@
               } catch (error) {
                 console.error('Error fetching candidate details:', error);
               }
-            }
           });
 
-          $('#candidateTable').on('click', '.updatebtn', function (e) {
-            e.preventDefault();
-            const candidateId = $(this).data('id');
-            fetch(`/api/update-candidate/${candidateId}`)
-              .then((response) => response.json())
-              .then((candidate) => {
-                
-                let salary = candidate.expected_salary;
-                if(candidate.sal_type === 'Monthly'){
-                  salary = salary * 12;
-                }
-                const interviewAt = candidate.interview_at ? new Date(candidate.interview_at).toISOString().slice(0, 16) : '';
-                const reInterviewAt = candidate.re_interview_at ? new Date(candidate.re_interview_at).toISOString().slice(0, 16) : '';
-                $('#updateModal #taskName').val(candidate.task_name || '');
-                $('#updateModal #assignedDate').val(candidate.assigned_date ||'');
-                $('#updateModal #deadlineDate').val(candidate.deadline || '');
-                $('#updateModal #status').val(candidate.task_status || '')
-                $('#updateModal #reworkAssignDate').val(candidate.rework_assigned || '');
-                $('#updateModal #reworkDeadlineDate').val(candidate.rework_deadline || '');
-                $('#updateModal #rework_status').val(candidate.rework_status);
-                $('#updateModal #remark1').val(candidate.task_remark || '');
-                $('#updateModal #interviewer').val(candidate.interviewer ||'')
-                $('#updateModal #interviewAt').val(interviewAt);
-                $('#updateModal #result').val(candidate.interview_status||'');
-                $('#updateModal #reinterviewAt').val(reInterviewAt);
-                $('#updateModal #re-result').val(candidate.re_interview||'');
-                $(`#updateModal input[name="technical_skills"][value="${parseInt(candidate.technical_skills)}"]`).prop("checked", true);
-                $(`#updateModal input[name="communication_skills"][value="${parseInt(candidate.communication_skills)}"]`).prop("checked", true);
-                $(`#updateModal input[name="problem_solving"][value="${parseInt(candidate.problem_solving)}"]`).prop("checked", true);
-                $(`#updateModal input[name="overall_ratings"][value="${parseInt(candidate.overall_ratings)}"]`).prop("checked", true);
-                $(`#updateModal input[name="re_interview_ratings"][value="${parseInt(candidate.re_interview_ratings)}"]`).prop("checked", true);
-                $('#updateModal #remark2').val(candidate.interview_remark||'');
-                $('#updateModal #esalary').val(candidate.expected_salary||'');
-                $('#updateModal #onboardDate').val(candidate.reporting_date||'');
-                $('#updateModal #report_time').val(candidate.reporting_time||'');
-                $('#updateModal #location').val(candidate.reporting_location||'');
-                $(`#updateModal input[name="document_verified"][value="${candidate.document_verified}"]`).prop("checked", true);
-                $('#updateModal #onboardStatus').val(candidate.onboarding_status||'');
-                $('#updateModal #candidate_id').val(candidate.candidate_id);
-                const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
-                updateModal.show();
+          document.querySelector('#candidateTable').addEventListener('click', async function (e) {
+            const updateButton = e.target.closest('.updatebtn');
+            if(!updateButton) return;
+
+            const candidateId = updateButton.getAttribute('data-id');
+            if(!candidateId);
+
+            try{
+              const response = await fetch(`/api/update-candidate/${candidateId}`);
+              const candidate = await response.json();
+              let salary = candidate.expected_salary;
+              if(candidate.sal_type === 'Monthly'){
+                salary = salary * 12;
+              }
+              const interviewAt = candidate.interview_at ? new Date(candidate.interview_at).toISOString().slice(0, 16) : '';
+              const reInterviewAt = candidate.re_interview_at ? new Date(candidate.re_interview_at).toISOString().slice(0, 16) : '';
+              const preInterviewAt = candidate.pre_intv_at ? new Date(candidate.pre_intv_at).toISOString().slice(0,16): '';
+
+              document.querySelector('#updateModal #pre_intv_at').value = (preInterviewAt ||'');
+              document.querySelector('#updateModal #pre_intv_status').value = (candidate.pre_intv_status ||'');
+              document.querySelector('#updateModal #pre_intv_remark').value =(candidate.pre_intv_remark ||'');
+              document.querySelector('#updateModal #taskName').value = (candidate.task_name || '');
+              document.querySelector('#updateModal #assignedDate').value = (candidate.assigned_date ||'');
+              document.querySelector('#updateModal #deadlineDate').value = (candidate.deadline || '');
+              document.querySelector('#updateModal #status').value = (candidate.task_status || '')
+              document.querySelector('#updateModal #reworkAssignDate').value = (candidate.rework_assigned || '');
+              document.querySelector('#updateModal #reworkDeadlineDate').value = (candidate.rework_deadline || '');
+              document.querySelector('#updateModal #rework_status').value = (candidate.rework_status);
+              document.querySelector('#updateModal #remark1').value = (candidate.task_remark || '');
+              document.querySelector('#updateModal #interviewer').value = (candidate.interviewer ||'')
+              document.querySelector('#updateModal #interviewAt').value = (interviewAt);
+              document.querySelector('#updateModal #result').value = (candidate.interview_status||'');
+              document.querySelector('#updateModal #reinterviewAt').value = (reInterviewAt);
+              document.querySelector('#updateModal #re-result').value = (candidate.re_interview||'');
+              const technical = document.querySelector(`#updateModal input[name="technical_skills"][value="${parseInt(candidate.technical_skills)}"]`);
+              if (technical) technical.checked = true;
+              const communication = document.querySelector(`#updateModal input[name="communication_skills"][value="${parseInt(candidate.communication_skills)}"]`);
+              if (communication) communication.checked = true;
+              const problemSolving = document.querySelector(`#updateModal input[name="problem_solving"][value="${parseInt(candidate.problem_solving)}"]`);
+              if (problemSolving) problemSolving.checked = true;
+              const overall = document.querySelector(`#updateModal input[name="overall_ratings"][value="${parseInt(candidate.overall_ratings)}"]`);
+              if (overall) overall.checked = true;
+              const reInterview = document.querySelector(`#updateModal input[name="re_interview_ratings"][value="${parseInt(candidate.re_interview_ratings)}"]`);
+              if (reInterview) reInterview.checked = true;
+              document.querySelector('#updateModal #remark2').value = (candidate.interview_remark||'');
+              document.querySelector('#updateModal #esalary').value = (salary||'');
+              document.querySelector('#updateModal #onboardDate').value = (candidate.reporting_date||'');
+              document.querySelector('#updateModal #report_time').value = (candidate.reporting_time||'');
+              document.querySelector('#updateModal #location').value = (candidate.reporting_location||'');
+              const doc_verified = document.querySelector(`#updateModal input[name="document_verified"][value="${candidate.document_verified}"]`);
+              if(doc_verified) doc_verified.checked = true;
+              if(candidate.verified_docs){
+                const documents = candidate.verified_docs.split(',');
+                documents.forEach(docs =>{
+                  let data = document.querySelector(`#updateModal input[name="documents"][value="${docs}"]`);
+                  if(data) data.checked = true;
               })
-              .catch((error) =>
-                console.error('Error fetching candidate details for update:', error)
-              );  
+              }
+              document.querySelector('#updateModal #onboardStatus').value = (candidate.onboarding_status||'');
+              document.querySelector('#updateModal #remark3').value = (candidate.overall_remark||'');
+              document.querySelector('#updateModal #candidate_id').value = (candidate.candidate_id);
+              const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
+              updateModal.show();
+          }
+            catch(err){
+              console.error(err);
+            }
           });
         })
         .catch((error) => console.error('Error fetching candidates:', error));
 });
+
+document.querySelector('.btn-warning').addEventListener('click', function () {
+    const roleValue = document.getElementById('role_filter').value.trim();
+    const statusValue = document.getElementById('status_filter').value.trim();
+    let startdate = document.getElementById('follow_start_filter').value;
+    let enddate = document.getElementById('follow_end_filter').value;
+    const table = $('#candidateTable').DataTable();
+    const followups = table.column(4).data().toArray();
+    let data = table;
+
+    if (roleValue && roleValue !== 'Select Role') {
+        data.column(2).search('^' + roleValue + '$',true);
+    }
+    if(statusValue && statusValue !== 'Select Status'){
+      data.column(5).search('^'+statusValue+'$',true);
+    }
+     data.rows().every(function () {
+        const dateStr = this.data()[4]; 
+        const followupDate = new Date(dateStr);
+
+        let show = true;
+        if (startdate && enddate) {
+            startdate = new Date(startdate);
+            enddate = new Date(enddate);
+            show = followupDate >= startdate && followupDate <= enddate;
+        } 
+        else if (startdate && !enddate) {
+            startdate = new Date(startdate);
+            show = followupDate >= startdate;
+        } 
+        else if (!startdate && enddate) {
+            enddate = new Date(enddate);
+            show = followupDate <= enddate;
+        }
+        else{
+          show = true;
+        }
+
+        if (show) {
+            $(this.node()).show();
+        } else {
+            $(this.node()).hide();
+        }
+    });
+    data.draw();
+});
+
+document.querySelector('.refreshBtn').addEventListener('click',function(){
+  document.getElementById('role_filter').value = '';
+  document.getElementById('status_filter').value = '';
+  document.getElementById('follow_start_filter').value = '';
+  document.getElementById('follow_end_filter').value = '';
+
+  const table = $('#candidateTable').DataTable();
+  table.column(2).search('');
+  table.column(4).search('');
+  table.column(5).search('');
+  table.search('').draw();
+})

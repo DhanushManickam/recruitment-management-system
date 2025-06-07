@@ -51,7 +51,6 @@ fetch('../html/edit-candidate.html')
         });
 
         if (!response.ok) throw new Error('Update failed');
-      alert('Candidate updated successfully!');
         document.getElementById('editModal').style.display = 'none';
         location.reload();
       } catch (err) {

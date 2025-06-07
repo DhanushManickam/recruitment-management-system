@@ -24,9 +24,9 @@
     <div class="content">
         <header>
             <h2 id="greeting">Good Morning HR name</h2>
-            <div class="headr">       
+            <!-- <div class="headr">       
                 <div id="profile"></div>
-            </div>
+            </div> -->
         </header>
         
           <div class="candidates" id="tableview" style="display: block;">
@@ -41,6 +41,49 @@
             
             
             <div class="candidate_table">
+                <div class="card shadow-sm border-0 mb-1 w-auto" id="filter">
+                <div class="card-body py-2 px-3">
+                    <div class="d-flex align-items-center justify-content-start flex-wrap gap-4 ">
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="role_filter" class="mb-0">Role</label>
+                        <select id="role_filter" name="role_filter" class="form-select form-select-sm " style="width: 175px;">
+                        <option selected disabled>Select Role</option>
+                        <option>App Developer</option>
+                        <option>Customer Trainer</option>
+                        <option>Full Stack Developer</option>
+                        <option>Human Resource</option>
+                        <option>Web/App Tester</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="status_filter" class="mb-0">Status</label>
+                        <select id="status_filter" name="status_filter" class="form-select form-select-sm " style="width: 200px;">
+                        <option selected disabled>Select Status</option>
+                        <option>Task assigned</option>
+                        <option>Interviewed</option>
+                        <option>Onboarded</option>
+                        <option>Documents verified</option>
+                        <option>Documents not verified</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="follow_start_filter" class="mb-0">Follow Up</label>
+                        <input type="date" id="follow_start_filter" name="follow_start_filter" class="form-control form-control-sm " style="width: 130px;">
+                        <span>to</span>
+                        <input type="date" id="follow_end_filter" name="follow_end_filter" class="form-control form-control-sm " style="width: 130px;">
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="btn btn-warning d-flex align-items-center gap-2 justify-content-end">Load</div>
+                        <div class="btn btn-secondary refreshBtn d-flex align-items-center  justify-content-end">Refresh</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
                 <table id="candidateTable" >
                     <thead>
                         <tr id="head-row">
@@ -158,10 +201,20 @@
                         <h5 class="modal-title">Preliminary Interview</h5>
                         <div class="row">
                             <div class=" mb-3 col-md-6">
-                                <label for="pre_intv_at" class="form-label">Preliminary Interview At</label>
+                                <label for="pre_intv_at" class="form-label">Preliminary Interview Date</label>
                                 <input type="datetime-local" id="pre_intv_at" name="pre_intv_at" class="form-control">
                             </div>
-                        <div class=" mb-3 col-md-6">
+                            <div class="mb-3 col-md-6">
+                                <label for="pre_intv_by" class="form-label">Interviewed by</label>
+                                  <select class="form-select" id="pre_intv_by" name="pre_intv_by">
+                                      <option value="i1">Interview1</option>
+                                      <option value="i2">Interview2</option>
+                                      <option value="i3">Interview3</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class=" mb-3 col-md-6">
                                 <label for="pre_intv_status" class="form-label">Preliminary Interview Status</label>
                                 <select name="pre_intv_status" id="pre_intv_status" class="form-select">
                                     <option value=""disabled selected></option>
@@ -460,7 +513,23 @@
           </div>
       </div>
   </div>
-  
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Candidate</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="deleteModalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="../javascripts/candidates.js"></script>
     <script src="../javascripts/header.js"></script>
     <script src="../javascripts/add-candidate.js"></script>

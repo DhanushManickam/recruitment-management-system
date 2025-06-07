@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'))
+    let confirmbtn = document.getElementById('confirmBtn');
     document.body.addEventListener('click', async (e) => {
 
         const deleteBtn = e.target.closest('.deletebtn');
@@ -7,10 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const candidateId = deleteBtn.getAttribute('data-id');
         if(!candidateId) return alert("Candidate Not found");
-        
-        const check = confirm(`Are you sure want to delete the candidate ${candidateId}?`);
-        if(!check) return;
+        document.querySelector('#deleteModal .modal-body').innerHTML = `<p> Are you sure want to delete candidate ${candidateId}`
+        deleteModal.show();
 
+        confirmbtn.addEventListener('click',async(e)=>{
+        e.preventDefault();
         try{
             const date = new Date();
             let jsonData = JSON.stringify({ deleted_at: date.toISOString() });
@@ -25,11 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Deletition failed");
                 return;
             }
-            alert(`Candidate ${candidateId} deleted successfully`);
+            deleteModal.hide();
             location.reload();
         }
         catch(err){
             console.error(err);
         }
+        })
     });
 });
