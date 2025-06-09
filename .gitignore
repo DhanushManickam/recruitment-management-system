@@ -136,3 +136,5 @@ dist
 .pnp.*
 
 uploads
+package-lock.json
+package.json    

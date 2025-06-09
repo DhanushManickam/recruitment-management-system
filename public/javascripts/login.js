@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const result = await response.json();
 
-      if (response.ok) {
+      if (response.ok && result.token) {
+        localStorage.setItem('jwt_token', result.token);
         window.location.href = '/candidate';
       } else {
         alert(result.message || 'Login failed');

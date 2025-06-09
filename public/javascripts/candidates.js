@@ -201,5 +201,6 @@ document.querySelector('.refreshBtn').addEventListener('click',function(){
   table.column(2).search('');
   table.column(4).search('');
   table.column(5).search('');
-  table.search('').draw();
-})
+  table.search('');
+  table.draw();
+});

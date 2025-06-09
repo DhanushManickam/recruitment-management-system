@@ -64,13 +64,21 @@ header .headr {
     gap: 50px;
     align-items: center;
 }
-header #profile {
+header #profile p {
     margin: 5px;
-    height: 50px;
-    width: 50px;
-    background-image: url("../components/iconamoon_profile-fill.png");
-    background-size: 50px 50px;
+    font-size: 22px;
+    padding: 1px 20px 1px 20px;
+    background-color: #fff;
     border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #000000;
+}
+
+header #profile .pro_logo{
+    padding-right: 10px;
+    font-size: 20px;
 }
 header h2 {
     margin-left: 0;
@@ -134,7 +142,7 @@ header h2 {
     padding: 10px;
 }
 .tableview a:hover{
-    color: white;
+color: white;
     background-color: #2aa89a;
 }
 /* 

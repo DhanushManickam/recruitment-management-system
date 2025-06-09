@@ -33,7 +33,7 @@ fetch('../html/add-candidate.html')
         const candidates = await res.json();
         const exists = candidates.some(c => c.email_id === email.value);
         if (exists) {
-          alert("Email already exists!");
+          document.getElementById('candidate_profile').innerHTML = `<p style="color : red; font-size: 14px;">This email already exist</p>`
           email.classList.add('is-invalid'); 
         } else {
           email.classList.remove('is-invalid');
@@ -41,3 +41,12 @@ fetch('../html/add-candidate.html')
       });
     }
 });
+function toggleOtherInput() {
+  const select = document.getElementById("source");
+  const otherField = document.getElementById("referral_field");
+  if (select.value === "Referral") {
+      otherField.style.display = "block";
+  } else {
+      otherField.style.display = "none";
+  }
+}

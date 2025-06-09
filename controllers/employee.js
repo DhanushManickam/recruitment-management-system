@@ -1,5 +1,6 @@
 const Employees = require('../models/employee');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports.emp_login =  async (req, res) => {
   const { email_id, password } = req.body;
@@ -21,8 +22,19 @@ module.exports.emp_login =  async (req, res) => {
     if (!is_match) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-    
-    res.status(200).json({ message: 'Login successful' });
+
+    const token = jwt.sign(
+      {
+        id : employee.id,
+        name : employee.name,
+        email_id : employee.email_id,
+        role : employee.role, 
+        department : employee.department
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: '1h'}
+    );
+    res.status(200).json({ message: 'Login successful', token });
 
   } catch (error) {
     console.error('Login error:', error);
@@ -69,3 +81,18 @@ module.exports.emp_register = async (req, res) => {
       res.status(500).json({ error: "User not created", details: err });
     }
   }
+
+module.exports.emp_profile = async (req, res) => {
+  try {
+    const employee = await Employees.findByPk(req.user.id);
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error('Error fetching employee profile:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}

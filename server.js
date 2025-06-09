@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const port = 4050;
 const { Candidates, Audit_log, Employees } = require('./models');
+require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

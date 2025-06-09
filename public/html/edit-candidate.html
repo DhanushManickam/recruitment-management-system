@@ -7,13 +7,13 @@
 
           <div class="rows">
               <div class="field">
-                  <label><span><i class="fa-regular fa-user"></i> First Name* </span></label>
+                  <label><span><i class="fa-regular fa-user"></i> First Name<span id="requiredFiled">*</span> </span></label>
                   <input type="text" id="fname" name="first_name" required>
                   <input type="hidden" id="candidate_id" name ='candidate_id'>
               </div>
   
               <div class="field">
-                  <label><span><i class="fa-regular fa-user"></i> Last Name* </span></label>
+                  <label><span><i class="fa-regular fa-user"></i> Last Name<span id="requiredFiled">*</span> </span></label>
                   <input type="text" id="lname" name="last_name" required>
               </div>
           </div>
@@ -21,12 +21,12 @@
           </div>
           <div class="rows">
             <div class="field">
-                <label><span><i class="fa-regular fa-envelope"></i> Email Id* </span></label>
+                <label><span><i class="fa-regular fa-envelope"></i> Email Id<span id="requiredFiled">*</span> </span></label>
                 <input type="email" id="email" name="email_id" required>
             </div>
             
             <div class="field">
-                <label><span><i class="fa-solid fa-phone"></i> Phone No* </span></label>
+                <label><span><i class="fa-solid fa-phone"></i> Phone No<span id="requiredFiled">*</span> </span></label>
                 <input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required>
             </div>
         </div>
@@ -59,7 +59,7 @@
 
             <div class="field">
                 <label>
-                  <span><i class="fa fa-link"></i> Source*</span>
+                  <span><i class="fa fa-link"></i> Source<span id="requiredFiled">*</span></span>
                 </label>
                 <select name="source" id="source" onchange="toggleOtherInput()" required>
                     <option value="none" disabled >Select source</option>

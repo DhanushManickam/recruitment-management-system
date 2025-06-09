@@ -8,12 +8,12 @@
 
                     <div class="rows">
                         <div class="field">
-                            <label><span><i class="fa-regular fa-user"></i> First Name* </span></label>
+                            <label><span><i class="fa-regular fa-user"></i> First Name<span id="requiredFiled">*</span> </span></label>
                             <input type="text" id="fname" name="first_name" required autocomplete="off">
                         </div>
             
                         <div class="field">
-                            <label><span><i class="fa-regular fa-user"></i> Last Name* </span></label>
+                            <label><span><i class="fa-regular fa-user"></i> Last Name<span id="requiredFiled">*</span> </span></label>
                             <input type="text" id="lname" name="last_name" required autocomplete="off">
                         </div>
                     </div>
@@ -22,13 +22,13 @@
                 
                 <div class="rows">
                     <div class="field">
-                        <label><span><i class="fa-regular fa-envelope"></i> Email Id* </span></label>
+                        <label><span><i class="fa-regular fa-envelope"></i> Email Id<span id="requiredFiled">*</span> </span></label>
                         <input type="email" id="email" name="email_id" required autocomplete="off">
                         <div id="candidate_profile"></div>
                     </div>
                     
                     <div class="field">
-                        <label><span><i class="fa-solid fa-phone"></i> Phone Number* </span></label>
+                        <label><span><i class="fa-solid fa-phone"></i> Phone Number<span id="requiredFiled">*</span> </span></label>
                         <input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required autocomplete="off">
                     </div>
                 </div>
@@ -47,7 +47,7 @@
 
                 <div class="rows">
                     <div class="field">
-                        <label><span><i class="fa-regular fa-file"></i> Resume*</span></label>
+                        <label><span><i class="fa-regular fa-file"></i> Resume<span id="requiredFiled">*</span></span></label>
                         <input type="file" name="resume" id="resume" accept=".pdf" required>
                     </div>
                     
@@ -60,7 +60,7 @@
 
                     <div class="field">
                         <label>
-                        <span><i class="fa fa-link"></i> Source*</span>
+                        <span><i class="fa fa-link"></i> Source<span id="requiredFiled">*</span></span>
                         </label>
                         <select name="source" id="source" onchange="toggleOtherInput()" required>
                             <option value="none" disabled selected>Select source</option>
@@ -133,11 +133,11 @@
                 <div class="rows">
                     <div class="field">
                         <label><span><i class="fa-solid fa-wallet"></i> Current Salary</span></label>
-                        <input type="number" name="current_salary" id="current_salary" step=".1">
+                        <input type="number" name="current_salary" id="current_salary" step=".1" min="0">
                     </div>
                     <div class="field">
                         <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span></label>
-                        <input type="number" name="expected_salary" id="expected_salary" step=".1">
+                        <input type="number" name="expected_salary" id="expected_salary" step=".1" min="0">
                     </div>
                 </div>
             

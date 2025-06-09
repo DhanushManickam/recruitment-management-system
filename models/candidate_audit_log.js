@@ -57,7 +57,7 @@ Candidates.addHook('beforeUpdate', async (candidate, options) => {
 });
 
 Candidates.addHook('afterCreate', async (candidate, options) => {
-  const modifiedBy = 1;
+  const modifiedBy = options.user?.id || null;
 
   await Audit_log.create({
     candidate_id: candidate.candidate_id,
