@@ -3,6 +3,7 @@ const candidates = require('../models/candidate');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const authentication = require('../middlewares/auth');
 const {add_candidate, candidate_list, get_candidate,get_update_candidate, edit_canididate, put_update_candidate, delete_candidate} = require('../controllers/candidate');
 
 const storage = multer.diskStorage({
@@ -26,17 +27,17 @@ const upload = multer({
  }
 })
 
-router.post('/add_candidate',upload.single('resume'), add_candidate);
+router.post('/add_candidate',upload.single('resume'), authentication, add_candidate);
 
 router.get('/api/candidates', candidate_list);
 
 router.get('/api/candidates/:id', get_candidate);
 
-router.put('/api/candidates/:id', upload.single('resume'),edit_canididate);
+router.put('/api/candidates/:id', upload.single('resume'),authentication, edit_canididate);
 
 router.get('/api/update-candidate/:id', get_update_candidate);
 
-router.put('/api/update-candidate/:id', put_update_candidate);
+router.put('/api/update-candidate/:id',authentication,  put_update_candidate);
 
-router.delete('/api/delete-candidate/:id',delete_candidate);
+router.delete('/api/delete-candidate/:id',authentication, delete_candidate);
 module.exports = router;

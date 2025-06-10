@@ -17,10 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try{
             const date = new Date();
             let jsonData = JSON.stringify({ deleted_at: date.toISOString() });
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch( `/api/delete-candidate/${candidateId}`,{
                 method : 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: jsonData
             })

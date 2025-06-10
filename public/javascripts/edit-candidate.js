@@ -38,18 +38,21 @@ fetch('../html/edit-candidate.html')
     let updateBtn = document.querySelector("#candidateFormUpdateBtn");
     updateBtn.addEventListener('click', async (e) => {
       e.preventDefault();
+      debugger;
       const candidateid = document.querySelector('#editModal #candidate_id').value;
       if (!candidateid) {
         console.log("Candidate Not found");
       }
       const formData = new FormData(form);  
- 
+      const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch(`/api/candidates/${candidateid}`, {
           method: 'PUT', 
-          body: formData
+          body: formData, 
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
         });
-
         if (!response.ok) throw new Error('Update failed');
         document.getElementById('editModal').style.display = 'none';
         location.reload();

@@ -1,4 +1,3 @@
-const { DATE } = require('sequelize');
 const candidates = require('../models/candidate');
 
 module.exports.add_candidate = async (req, res) => {
@@ -41,7 +40,7 @@ module.exports.add_candidate = async (req, res) => {
     const resumepath = req.file ? `/uploads/${req.file.filename}` : null;
     const currentStatus = 'Candidate added';
     const followUpDate = new Date().toISOString().split('T')[0];
-
+    console.log(req.user);
     await candidates.create({ 
       first_name,
       last_name,
@@ -169,7 +168,7 @@ module.exports.edit_canididate =  async (req, res) => {
       current_salary: parsedCurrentSalary,
       expected_salary: parsedExpectedSalary,
       skill_set
-    });
+    },{ user: req.user });
 
     res.json({ message: 'Candidate updated successfully', candidate });
   } catch (err) {
@@ -277,12 +276,8 @@ module.exports.put_update_candidate = async(req,res) =>{
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Re-interview') && (re_interview === 'Pending' || re_interview === undefined)){
       status = 'Waiting for re-Interview';
       followUpDate = new Date(reInterviewAt);
-    }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && !interviewAt){
-      status = 'Interview not scheduled';
-      followUpDate = candidate.follow_up_date ? new Date(candidate.follow_up_date) : new Date();
-    }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined)){
+    } 
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Completed' || rework_status ==='Completed')) ){
       status = 'Waiting for Interview';
       followUpDate = new Date(interviewAt);
     }
@@ -298,20 +293,24 @@ module.exports.put_update_candidate = async(req,res) =>{
       status = 'Task Not assinged';
       followUpDate = candidate.follow_up_date ? new Date(candidate.follow_up_date) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && preIntvAT)){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && preIntvAT) && assignedDate && !preIntvAT){
       status = 'Task assigned';
       followUpDate = new Date(deadLine);
     }
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && preIntvAT) && !interviewAt){
-      status = 'Interview Not scheduled';
+      status = 'Interview not scheduled';
       followUpDate = candidate.follow_up_date ? new Date(candidate.follow_up_date) : new Date();
     }
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && preIntvAT) ){
       status = 'Waiting for interview';
       followUpDate = new Date(interviewAt);
     }
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (preIntvAT) ){
+      status = 'waiting for pre-interview';
+      followUpDate = new Date(interviewAt);
+    }
+    console.log((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && preIntvAT))
 
-    console.log(followUpDate);
     await candidate.update({
       pre_intv_at : preIntvAT,
       pre_intv_status,
@@ -344,7 +343,7 @@ module.exports.put_update_candidate = async(req,res) =>{
       onboarding_status : onboardingStatus,
       current_status : status,
       follow_up_date : followUpDate
-    })
+    },{ user: req.user })
 
     res.json({message: "Candidate updated successfully", candidate});
   }
@@ -362,7 +361,7 @@ module.exports.delete_candidate = async(req,res)=>{
 
     const candidate = await candidates.findOne({where:{candidate_id : candidateId}});
     if(!candidate) return res.status(404).json({message: "Candidate not found to delete"});
-    await candidate.destroy();
+    await candidate.destroy({ user: req.user });
     res.json({message: "candidate deleted,", candidate});
   }
   catch(err){

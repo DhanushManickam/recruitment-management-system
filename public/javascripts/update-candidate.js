@@ -38,11 +38,13 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
 
   const formData = new FormData(form);
   const jsonData = Object.fromEntries(formData.entries());
+  const token = localStorage.getItem('jwt_token');
   try {
     const response = await fetch(`/api/update-candidate/${candidateId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(jsonData),
     });

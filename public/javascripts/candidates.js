@@ -6,11 +6,15 @@
           
           // Retrieving all candidates data and display in candidates page
           candidates.forEach((candidate, index) => {
+            let role = candidate.role;
+            if(candidate.role === null){
+              role = 'Role not assigned';
+            }
             rows += (`
               <tr>
                 <td>${index + 1}</td>
                 <td>${candidate.first_name} ${candidate.last_name}</td>
-                <td>${candidate.role}</td>
+                <td>${role}</td>
                 <td>${candidate.experience_year} yrs ${candidate.experience_month} mos</td>
                 <td>${candidate.follow_up_date}</td>
                 <td>${candidate.current_status}</td>

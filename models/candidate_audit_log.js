@@ -36,49 +36,53 @@ const Audit_log = sequelize.define('audit_log', {
       }
 });
 
+const audit_log_data = () =>{
+  const Candidates = require('./candidate');
+  const Employees = require('./employee');
 
-Candidates.hasMany(Audit_log, { foreignKey: 'candidate_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-Audit_log.belongsTo(Candidates, { foreignKey: 'candidate_id' });
+  Candidates.hasMany(Audit_log, { foreignKey: 'candidate_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+  Audit_log.belongsTo(Candidates, { foreignKey: 'candidate_id' });
 
-Employees.hasMany(Audit_log, { foreignKey: 'modified_by_emp_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
-Audit_log.belongsTo(Employees, { foreignKey: 'modified_by_emp_id' });
+  Employees.hasMany(Audit_log, { foreignKey: 'modified_by_emp_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
+  Audit_log.belongsTo(Employees, { foreignKey: 'modified_by_emp_id' });
 
-Candidates.addHook('beforeUpdate', async (candidate, options) => {
-  const oldData = await Candidates.findByPk(candidate.candidate_id);
-  const modifiedBy = 1;
-
-  await Audit_log.create({
-    candidate_id: candidate.candidate_id,
-    action: 'UPDATE',
-    modified_by_emp_id: modifiedBy,
-    old_value: oldData ? oldData.toJSON() : {},
-    new_value: candidate.toJSON()
-  });
-});
-
-Candidates.addHook('afterCreate', async (candidate, options) => {
-  const modifiedBy = options.user?.id || null;
-
-  await Audit_log.create({
-    candidate_id: candidate.candidate_id,
-    action: 'CREATE',
-    modified_by_emp_id: modifiedBy,
-    old_value: {},
-    new_value: candidate.toJSON()
-  });
-});
-
-Candidates.addHook('beforeDestroy',async (candidate, options) =>{
-    const old_data = await Candidates.findByPk(candidate.candidate_id);
-    const modifiedBy  =  1; 
+  Candidates.addHook('beforeUpdate', async (candidate, options) => {
+    const oldData = await Candidates.findByPk(candidate.candidate_id);
+    const modifiedBy = options.user?.id || null;
 
     await Audit_log.create({
-        candidate_id: candidate.candidate_id,
-        action: 'DELETE',
-        modified_by_emp_id : modifiedBy,
-        old_value : old_data ? old_data.toJSON() : {},
-        new_value : {}
+      candidate_id: candidate.candidate_id,
+      action: 'UPDATE',
+      modified_by_emp_id: modifiedBy,
+      old_value: oldData ? oldData.toJSON() : {},
+      new_value: candidate.toJSON()
     });
-});
+  });
 
+  Candidates.addHook('afterCreate', async (candidate, options) => {
+    const modifiedBy =  options.user?.id || null;
+
+    await Audit_log.create({
+      candidate_id: candidate.candidate_id,
+      action: 'CREATE',
+      modified_by_emp_id: modifiedBy,
+      old_value: {},
+      new_value: candidate.toJSON()
+    });
+  });
+
+  Candidates.addHook('beforeDestroy',async (candidate, options) =>{
+      const old_data = await Candidates.findByPk(candidate.candidate_id);
+      const modifiedBy  =  options.user?.id || null; 
+
+      await Audit_log.create({
+          candidate_id: candidate.candidate_id,
+          action: 'DELETE',
+          modified_by_emp_id : modifiedBy,
+          old_value : old_data ? old_data.toJSON() : {},
+          new_value : {}
+      });
+  });
+}
+audit_log_data();
 module.exports = Audit_log;

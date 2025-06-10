@@ -24,7 +24,7 @@ const Employees = sequelize.define('employee',{
         allowNull : false,
     },
     role : {
-        type : DataTypes.ENUM('Application Developer' ,'Full Stack Developer', 'HR'),
+        type : DataTypes.ENUM('Application Developer' ,'Full Stack Developer', 'HR', 'Admin'),
         allowNull : false
     },
     department : {
