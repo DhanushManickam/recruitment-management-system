@@ -25,29 +25,38 @@ fetch('../html/add-candidate.html')
         new Tagify(skillInput);
       }
     }, 50);
-
     const email = document.getElementById('email');
-    if (email) {
+
+      if (email) {
       email.addEventListener('input', async () => {
-        const token = localStorage.getItem('jwt_token');
-        const res = await fetch('/api/candidates', {
+      const token = localStorage.getItem('jwt_token');
+
+      try {
+        const res = await fetch('api/verify_candidate', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
+
+        if (!res.ok) throw new Error('Failed to fetch candidates');
+
         const candidates = await res.json();
         const exists = candidates.some(c => c.email_id === email.value);
+        const profileMsg = document.getElementById('candidate_profile');
         if (exists) {
-          document.getElementById('candidate_profile').innerHTML =
-            `<p style="color : red; font-size: 14px;">This email already exists</p>`;
+          profileMsg.innerHTML = `<p style="color: red; font-size: 14px;">This email already exists</p>`;
           email.classList.add('is-invalid');
         } else {
-          document.getElementById('candidate_profile').innerHTML = '';
+          profileMsg.innerHTML = '';
+          email.classList.remove('is-invalid');
         }
+      } catch (err) {
+        console.error('Email check failed:', err);
+      }
       });
-    }
-    
+      }
+
     const form = document.getElementById('addcandidateForm');
     if (form) {
       form.addEventListener('submit', async (e) => {

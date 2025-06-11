@@ -32,10 +32,9 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
   document.getElementById('verifieddocs').value = verified_document.toString();
 
   if (!candidateId) {
-    console.log("Candiate Not found");
+    console.log("Candidate Not found");
     return;
   }
-
   const formData = new FormData(form);
   const jsonData = Object.fromEntries(formData.entries());
   const token = localStorage.getItem('jwt_token');

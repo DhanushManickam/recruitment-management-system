@@ -64,14 +64,7 @@ header .headr {
     gap: 50px;
     align-items: center;
 }
-header #profile {
-    margin: 5px;
-    height: 50px;
-    width: 50px;
-    background-image: url("../images/iconamoon_profile-fill.png");
-    background-size: 50px 50px;
-    border-radius: 50px;
-}
+
 header h2 {
     margin-left: 0;
 }

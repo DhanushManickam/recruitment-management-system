@@ -69,7 +69,12 @@
                 } else {
                   resumeLink.style.display = 'none';
                 }
+                let sourceSelect = document.querySelector('#editModal #source');
+                let referralField = document.querySelector('#editModal #referral_field');
 
+                if (sourceSelect && referralField) {
+                  referralField.style.display = sourceSelect.value === "Referral" ? "block" : "none";
+                }
                 document.getElementById('editModal').style.display = 'block';
 
               } catch (error) {
@@ -138,6 +143,12 @@
               document.querySelector('#updateModal #onboardStatus').value = (candidate.onboarding_status||'');
               document.querySelector('#updateModal #remark3').value = (candidate.overall_remark||'');
               document.querySelector('#updateModal #candidate_id').value = (candidate.candidate_id);
+              if(candidate.task_status){
+                toggleOtherField();
+              }
+              if(candidate.interview_status){
+                onreinterview();
+              }
               const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
               updateModal.show();
           }

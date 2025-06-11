@@ -111,11 +111,11 @@ const Candidates = sequelize.define('candidate', {
     allowNull : true,
   },
   task_name: {
-    type: DataTypes.STRING(64),
+    type: DataTypes.STRING(254),
     allowNull : true
   },
   task_status: {
-    type: DataTypes.ENUM('Completed','Rejected', 'Pending', 'Task Rework'),
+    type: DataTypes.ENUM('Direct Interview','Needs Pre Interview','Rejected', 'Pending', 'Task Rework'),
     allowNull: true,
   },
   assigned_date: {
@@ -127,7 +127,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   rework_status: {
-    type: DataTypes.ENUM('Completed','Rejected', 'Pending'),
+    type: DataTypes.ENUM('Direct Interview','Needs Pre Interview','Rejected', 'Pending'),
     allowNull: true,
   },
   rework_assigned: {

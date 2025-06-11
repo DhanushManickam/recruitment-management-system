@@ -59,27 +59,6 @@ header {
     z-index: 10;
     padding: 0 30px;
 }
-header .headr {
-    display: flex;
-    gap: 50px;
-    align-items: center;
-}
-header #profile p {
-    margin: 5px;
-    font-size: 22px;
-    padding: 1px 20px 1px 20px;
-    background-color: #fff;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: #000000;
-}
-
-header #profile .pro_logo{
-    padding-right: 10px;
-    font-size: 20px;
-}
 header h2 {
     margin-left: 0;
 }

@@ -70,7 +70,7 @@
                         <option>Re-Interview not scheduled</option>
                         <option>Waiting for re-Interview</option>
                         <option>Documents not verified</option>
-                        <option>Documents verified</option>
+                        <option>Waiting for Onboard</option>
                         <option>Onboarded</option>
                         <option>Rejected</option>
                         </select>
@@ -262,7 +262,8 @@
                               <div class="mb-3 col-md-6">
                                   <label for="status" class="form-label">Status</label>
                                   <select class="form-select" id="status" name="task_status" onchange="toggleOtherField()">
-                                      <option value="Completed">Completed</option>
+                                      <option value="Direct Interview">Direct Interview</option>
+                                      <option value="Needs Pre Interview">Needs Pre Interivew</option>
                                       <option value="Pending" selected>Pending</option>
                                       <option value="Rejected">Rejected</option>
                                       <option value="Task Rework">Task Rework</option>
@@ -273,6 +274,7 @@
                               <div class="mb-3 otherField col-md-6" style="display: none;">
                                   <label for="reworkAssignDate" class="form-label">Rework Assigned Date</label>
                                   <input type="date" class="form-control" id="reworkAssignDate" name="rework_assigned">
+                                  <p class=""></p>
                               </div>
                               <div class="mb-3 otherField col-md-6" style="display: none;">
                                   <label for="reworkDeadlineDate" class="form-label">Rework Deadline Date</label>
@@ -282,7 +284,8 @@
                               <div class="mb-3 otherField col-md-6" style="display: none;">
                                 <label for="rework_status" class="form-label">Status</label>
                                   <select class="form-select" id="rework_status" name="rework_status" onchange="interviewtab()">
-                                      <option value="Completed">Completed</option>
+                                      <option value="Direct Interview">Direct Interview</option>
+                                      <option value="Needs Pre Interview">Needs pre Interivew</option>
                                       <option value="Pending" selected>Pending</option>
                                       <option value="Rejected">Rejected</option>
                                   </select>
