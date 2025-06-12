@@ -32,7 +32,7 @@ module.exports.emp_login =  async (req, res) => {
         department : employee.department
       },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: '1h'}
+      { expiresIn: '24h'}
     );
     res.status(200).json({ message: 'Login successful', token });
 

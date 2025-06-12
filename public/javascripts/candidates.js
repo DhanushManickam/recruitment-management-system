@@ -6,6 +6,16 @@
           
           // Retrieving all candidates data and display in candidates page
           candidates.forEach((candidate, index) => {
+            let exp = "Not Assigned"
+            if(candidate.experience_year && candidate.experience_month){
+              exp = candidate.experience_year+" yrs "+candidate.experience_month+" mos";
+            }
+            else if(candidate.experience_year){
+              exp = candidate.experience_year+" yrs "+"0 mos";
+            }
+            else if(candidate.experience_month){
+              exp = "0 yrs "+candidate.experience_month+" mos";
+            }
             let role = candidate.role;
             if(candidate.role === null){
               role = 'Role not assigned';
@@ -15,7 +25,7 @@
                 <td>${index + 1}</td>
                 <td>${candidate.first_name} ${candidate.last_name}</td>
                 <td>${role}</td>
-                <td>${candidate.experience_year} yrs ${candidate.experience_month} mos</td>
+                <td>${exp}</td>
                 <td>${candidate.follow_up_date}</td>
                 <td>${candidate.current_status}</td>
                 <td><a href="#" class="editbtn btn" data-id="${candidate.candidate_id}"><i class="fa fa-edit"></i></a> 
@@ -217,5 +227,8 @@ document.querySelector('.refreshBtn').addEventListener('click',function(){
   table.column(4).search('');
   table.column(5).search('');
   table.search('');
+  table.rows().every(function () {
+    $(this.node()).show();
+  });
   table.draw();
 });

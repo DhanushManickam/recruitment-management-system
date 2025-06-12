@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const port = 4050;
 require('dotenv').config();
+require('./models/candidate_audit_log');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

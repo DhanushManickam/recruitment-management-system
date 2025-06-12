@@ -65,8 +65,37 @@ assign_date.addEventListener('input', async (e) => {
 });
 
 let rework_assign = document.getElementById("reworkAssignDate");
+
 rework_assign.addEventListener('input', async (e) => {
-  let newdate = new Date(rework_assign.value);
-  newdate.setDate(newdate.getDate() + 15);
-  form.rework_deadline.value = newdate.toISOString().split('T')[0];
+  const assignDate = new Date(assign_date.value);
+  const reworkDate = new Date(rework_assign.value);
+  const dateError = document.getElementById('dateValidation');
+  if (reworkDate < assignDate) {
+    dateError.innerHTML = `<p style="color: red; font-size: 14px;">Date must be after the first task assigned</p>`;
+    dateError.classList.add('is-invalid');
+  } else {
+    dateError.innerHTML = '';
+    dateError.classList.remove('is-invalid');
+
+    const deadlineDate = new Date(reworkDate);
+    deadlineDate.setDate(deadlineDate.getDate() + 15);
+    form.rework_deadline.value = deadlineDate.toISOString().split('T')[0];
+  }
+});
+
+let interview_at = document.getElementById('interviewAt');
+let reinterview_at = document.getElementById('reinterviewAt');
+
+reinterview_at.addEventListener('input', async(e)=>{
+  const interview = new Date(interview_at.value);
+  const reinterview = new Date(reinterview_at.value);
+  const interview_date = document.getElementById('interviewdate');
+  if(interview > reinterview){
+    interview_date.innerHTML = `<p style="color: red; font-size: 14px;">Date must be after the first Interview</p>`;
+    interview_date.classList.add('is-invalid');
+  }
+  else{
+    interview_date.innerHTML = '';
+    interview_date.classList.remove('is-invalid');
+  }
 })
