@@ -45,7 +45,7 @@ fetch('../html/add-candidate.html')
         const exists = candidates.some(c => c.email_id === email.value);
         const profileMsg = document.getElementById('candidate_profile');
         if (exists) {
-          profileMsg.innerHTML = `<p style="color: red; font-size: 14px;">This email already exists</p>`;
+          profileMsg.innerHTML = `<a style="color: red; font-size: 14px;" herf="#" id="existingCandidate">This email already exists</a>`;
           email.classList.add('is-invalid');
         } else {
           profileMsg.innerHTML = '';
@@ -91,6 +91,10 @@ fetch('../html/add-candidate.html')
         }
       });
     }
+    // document.getElementById('existingCandidate').addEventListener('click', ()=>{
+    //   const modal = documnet.getElementById('existingCandidateModal');
+    //   modal.show();
+    // })
   });
 
 function toggleOtherInput() {

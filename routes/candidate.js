@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const authentication = require('../middlewares/auth');
-const {add_candidate, candidate_list, get_candidate,get_update_candidate, edit_canididate, put_update_candidate, delete_candidate, verify_candidate} = require('../controllers/candidate');
+const {add_candidate, candidate_list, get_candidate, get_update_candidate, edit_canididate, put_update_candidate, delete_candidate, verify_candidate, filter_value} = require('../controllers/candidate');
 
 const storage = multer.diskStorage({
   destination : (req, file, cb)=>{
@@ -26,6 +26,8 @@ const upload = multer({
   }
  }
 })
+
+router.get('/api/candidates/filter', filter_value)
 
 router.post('/add_candidate',upload.single('resume'), authentication, add_candidate);
 

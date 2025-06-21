@@ -23,7 +23,7 @@
     </div>
     <div class="content">
         <header>
-            <h2 id="greeting">Good Morning HR name</h2>
+            <h2 id="greeting"></h2>
             <div class="headr">       
                 <div id="profile"></div>
             </div>
@@ -48,31 +48,14 @@
                     <div class="d-flex align-items-center gap-2">
                         <label for="role_filter" class="mb-0">Role</label>
                         <select id="role_filter" name="role_filter" class="form-select form-select-sm " style="width: 175px;">
-                        <option selected disabled>Select Role</option>
-                        <option>App Developer</option>
-                        <option>Customer Trainer</option>
-                        <option>Full Stack Developer</option>
-                        <option>Human Resource</option>
-                        <option>Web/App Tester</option>
+                            <option selected disabled>Select Role</option>
                         </select>
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
                         <label for="status_filter" class="mb-0">Status</label>
                         <select id="status_filter" name="status_filter" class="form-select form-select-sm " style="width: 200px;">
-                        <option selected disabled>Select Status</option>
-                        <option>Candidate Added</option>
-                        <option>Task Not assinged</option>
-                        <option>Task assigned</option>
-                        <option>Task rework assigned</option>
-                        <option>Interview not scheduled</option>
-                        <option>Waiting for interview</option>
-                        <option>Re-Interview not scheduled</option>
-                        <option>Waiting for re-Interview</option>
-                        <option>Documents not verified</option>
-                        <option>Waiting for Onboard</option>
-                        <option>Onboarded</option>
-                        <option>Rejected</option>
+                            <option selected disabled>Select Status</option>
                         </select>
                     </div>
 
@@ -83,7 +66,7 @@
                         <input type="date" id="follow_end_filter" name="follow_end_filter" class="form-control form-control-sm " style="width: 130px;">
                     </div>
                     <div class="d-flex align-items-center gap-4">
-                        <div class="btn btn-warning d-flex align-items-center gap-2 justify-content-end">Load</div>
+                        <div class="btn btn-warning filterBtn d-flex align-items-center gap-2 justify-content-end">Load</div>
                         <div class="btn btn-secondary refreshBtn d-flex align-items-center  justify-content-end">Refresh</div>
                     </div>
                 </div>
@@ -94,13 +77,13 @@
                 <table id="candidateTable" >
                     <thead>
                         <tr id="head-row">
-                            <th id="start">S.no</th>
+                            <th id="start" style="width: 50px;">S.no</th>
                             <th>Name</th>
                             <th>Role</th>
-                            <th>Experience</th>
-                            <th>Follow up</th>
+                            <th style="width: 120px;">Experience</th>
+                            <th style="width: 120px;">Follow up</th>
                             <th>Current status</th>
-                            <th>Actions</th>
+                            <th style="width: 200px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -32,11 +32,6 @@ document.addEventListener('DOMContentLoaded',function(){
                             <i class="fa fa-user me-2"></i>${employee.email_id}
                         </span>
                     </li>
-                    <li>
-                        <span class="m-2 d-inline-flex align-items-center">
-                            <i class="fa-solid fa-briefcase me-2"></i>${employee.role}
-                        </span>
-                    </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <a class="dropdown-item" href="#" onclick="localStorage.removeItem('jwt_token'); window.location.href='/';">

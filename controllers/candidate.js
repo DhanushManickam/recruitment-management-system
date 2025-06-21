@@ -1,4 +1,5 @@
 const candidates = require('../models/candidate');
+const sequelize = require('sequelize');
 
 module.exports.add_candidate = async (req, res) => {
   try {
@@ -78,7 +79,34 @@ module.exports.add_candidate = async (req, res) => {
 
 module.exports.candidate_list  =  async (req, res) => {
   try {
-    const Candidates = await candidates.findAll();
+    let where = {};
+    if(req.query.role){
+      where.role = req.query.role;
+    }
+    if(req.query.status){
+      where.current_status = req.query.status;
+    }
+    if (req.query.startDate && req.query.endDate) {
+      let startDate = new Date(req.query.startDate);
+      let endDate = new Date(req.query.endDate);
+      console.log(startDate,endDate);
+      where.follow_up_date = {
+        [sequelize.Op.gte]: startDate,
+        [sequelize.Op.lte]: endDate
+      };
+    } else if (req.query.startDate && !req.query.endDate) {
+      let startDate = new Date(req.query.startDate);
+      where.follow_up_date = {
+        [sequelize.Op.gte]: startDate
+      };
+    } else if (!req.query.startDate && req.query.endDate) {
+      let endDate = new Date(req.query.endDate);
+      where.follow_up_date = {
+        [sequelize.Op.lte]: endDate
+      }
+    }
+
+    const Candidates = await candidates.findAll({where});
 
     res.json(Candidates);
 
@@ -295,7 +323,6 @@ module.exports.put_update_candidate = async(req,res) =>{
       status = 'Waiting for Interview';
       followUpDate = interviewAt ? new Date(interviewAt) : new Date();
     }
-    
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && ( (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (!preIntvAT)){
       status = 'Pre-interview not Scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
@@ -400,3 +427,23 @@ module.exports.verify_candidate  =  async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+module.exports.filter_value = async(req, res)=>{
+  try{
+    let filterValue = await candidates.findAll({
+      attributes : [
+        'role', 
+        'current_status'
+      ],
+      group : [
+        'role',
+        'current_status'
+      ]
+    })
+    res.json(filterValue);
+  }
+  catch (err){
+    console.error(err);
+    res.status(500).send('server Error');
+  }
+}
