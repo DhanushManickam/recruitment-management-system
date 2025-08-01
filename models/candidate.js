@@ -99,7 +99,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   pre_intv_at :{
-    type : DataTypes.DATE,
+    type : DataTypes.STRING,
     allowNull : true
   },
   pre_intv_status :{
@@ -143,7 +143,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   interview_at: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   interviewer:{
@@ -179,7 +179,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   re_interview_at: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   re_interview_ratings: {
@@ -195,7 +195,7 @@ const Candidates = sequelize.define('candidate', {
     allowNull: true,
   },
   reporting_location: {
-    type: DataTypes.ENUM('KT Telematic Solutions Pvt. Ltd, Coimbatore', 'KT Telematic Solutions Pvt. Ltd, Salem'),
+    type: DataTypes.ENUM('Coimbatore','Salem'),
     allowNull: true,
   },
   verified_docs :{

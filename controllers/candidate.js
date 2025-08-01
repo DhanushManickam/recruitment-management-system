@@ -71,7 +71,7 @@ module.exports.add_candidate = async (req, res) => {
     return res.redirect('/candidate');
   } catch (err) {
     console.error('Error creating candidate:', err);
-    return res
+    res
       .status(500)
       .json({ error: 'Candidate not created', details: err.message || err });
   }
@@ -106,13 +106,18 @@ module.exports.candidate_list  =  async (req, res) => {
       }
     }
 
-    const Candidates = await candidates.findAll({where});
+    const Candidates = await candidates.findAll({
+      where,
+      order : [
+        ['candidate_id', 'ASC']
+      ]
+    });
 
-    res.json(Candidates);
+    return res.json(Candidates);
 
   } catch (err) {
     console.error('Error fetching candidates:', err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 };
 
@@ -126,10 +131,10 @@ module.exports.get_candidate =  async (req, res) => {
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    res.json(candidate);
+    return res.json(candidate);
   } catch (err) {
     console.error('Error fetching candidate:', err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 }
 
@@ -200,10 +205,10 @@ module.exports.edit_canididate =  async (req, res) => {
       skill_set
     },{ user: req.user });
 
-    res.json({ message: 'Candidate updated successfully', candidate });
+    return res.json({ message: 'Candidate updated successfully', candidate });
   } catch (err) {
     console.error('Error updating candidate:', err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 }
 
@@ -217,10 +222,10 @@ module.exports.get_update_candidate =  async (req, res) => {
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    res.json(candidate);
+    return res.json(candidate);
   } catch (err) {
     console.error('Error fetching candidate:', err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 }
 
@@ -261,16 +266,12 @@ module.exports.put_update_candidate = async(req,res) =>{
 
     const candidate = await candidates.findOne({where: {candidate_id : candidateId}});
     if(!candidate) return res.status(404).json({message: "Candidate not found to update"});
-
     const assignedDate = assigned_date && !isNaN(Date.parse(assigned_date)) ? new Date(assigned_date) : null;
     const deadLine = deadline && !isNaN(Date.parse(deadline)) ? new Date(deadline) : null;
     const reworkAssigned = rework_assigned && !isNaN(Date.parse(rework_assigned)) ? new Date(rework_assigned) : null;
     const reworkDeadline = rework_deadline && !isNaN(Date.parse(rework_deadline)) ? new Date(rework_deadline) : null;
-    const interviewAt = interview_at && !isNaN(Date.parse(interview_at)) ? new Date(interview_at) : null;
-    const reInterviewAt = re_interview_at && !isNaN(Date.parse(re_interview_at)) ? new Date(re_interview_at) : null;
     const reportingDate = reporting_date && !isNaN(Date.parse(reporting_date)) ? new Date(reporting_date) : null;
     const reportingTime = reporting_time && reporting_time.trim() !== '' ? reporting_time : null;
-    const preIntvAT = pre_intv_at && !isNaN(Date.parse(pre_intv_at)) ? new Date(pre_intv_at) : null;
     const onboardingStatus = (onboarding_status ==='') ? null : onboarding_status;
 
     const toNullIfEmpty = (val) => (val === '' ? null : val);
@@ -299,37 +300,37 @@ module.exports.put_update_candidate = async(req,res) =>{
       status = 'Documents not verified';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Re-interview') && (re_interview === 'Pending' || re_interview === undefined)&& !reInterviewAt){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Re-interview') && (re_interview === 'Pending' || re_interview === undefined)&& !re_interview_at){
       status = 'Re-Interview not scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Re-interview') && (re_interview === 'Pending' || re_interview === undefined)){
       status = 'Waiting for re-Interview';
-      followUpDate = reInterviewAt ? candidate.reInterviewAt : new Date();
+      followUpDate = re_interview_at ? candidate.re_interview_at : new Date();
     } 
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (preIntvAT && pre_intv_status === 'Direct interview') && !interviewAt){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (pre_intv_at && pre_intv_status === 'Direct interview') && !interview_at){
       status = 'Interview not Scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Direct Interview' || rework_status ==='Direct Interview'))&& !interviewAt ){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Direct Interview' || rework_status ==='Direct Interview'))&& !interview_at ){
       status = 'Interview not Scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Direct Interview' || rework_status ==='Direct Interview')) ){
       status = 'Waiting for Interview';
-      followUpDate = interviewAt ? new Date(interviewAt) : new Date();
+      followUpDate = interview_at ? new Date(interview_at) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (preIntvAT && pre_intv_status === 'Direct interview') && interviewAt){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (pre_intv_status === 'Direct Interview' || (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (pre_intv_at && pre_intv_status === 'Direct interview') && interview_at){
       status = 'Waiting for Interview';
-      followUpDate = interviewAt ? new Date(interviewAt) : new Date();
+      followUpDate = interview_at ? new Date(interview_at) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && ( (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (!preIntvAT)){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && ( (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && (!pre_intv_at)){
       status = 'Pre-interview not Scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && ( (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && preIntvAT){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && ( (task_status ==='Needs Pre Interview' || rework_status ==='Needs Pre Interview')) && pre_intv_at){
       status = 'Waiting for Pre-interview';
-      followUpDate = preIntvAT ? new Date(preIntvAT) : new Date();
+      followUpDate = pre_intv_at ? new Date(pre_intv_at) : new Date();
     }
     else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (re_interview === 'Pending' || re_interview === undefined) && (task_status === 'Task Rework' && assignedDate) && (rework_status === 'Pending' || rework_status === undefined)){
       status = 'Task Rework Assigned'
@@ -339,29 +340,29 @@ module.exports.put_update_candidate = async(req,res) =>{
       status = 'Task Assigned';
       followUpDate = deadLine ? new Date(deadLine) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && preIntvAT) && !assignedDate){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && pre_intv_at) && !assignedDate){
       status = 'Task not Assinged';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && preIntvAT) && assignedDate && !preIntvAT){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Needs task' && pre_intv_at) && assignedDate && !pre_intv_at){
       status = 'Task Assigned';
       followUpDate = deadLine ? new Date(deadLine) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && preIntvAT && !interviewAt) ){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && pre_intv_at && !interview_at) ){
       status = 'Interview not Scheduled';
       followUpDate = candidate.follow_up_date ? candidate.follow_up_date : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && preIntvAT) ){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_status === 'Direct interview' && pre_intv_at) ){
       status = 'Waiting for Interview';
-      followUpDate = interviewAt ? new Date(interviewAt) : new Date();
+      followUpDate = interview_at ? new Date(interview_at) : new Date();
     }
-    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (preIntvAT) ){
+    else if((onboardingStatus ==='Pending'|| onboardingStatus === null) && (document_verified === 'false' || document_verified === undefined) && (interview_status === 'Pending' ||interview_status === undefined) && (pre_intv_at) ){
       status = 'Waiting for Pre-interview';
-      followUpDate = preIntvAT ? new Date(preIntvAT) : new Date();
+      followUpDate = pre_intv_at ? new Date(pre_intv_at) : new Date();
     }
 
     await candidate.update({
-      pre_intv_at : preIntvAT,
+      pre_intv_at,
       pre_intv_status,
       pre_intv_remark,
       task_name,
@@ -373,9 +374,9 @@ module.exports.put_update_candidate = async(req,res) =>{
       rework_status,
       task_remark,
       interviewer,
-      interview_at : interviewAt,
+      interview_at,
       interview_status,
-      re_interview_at : reInterviewAt,
+      re_interview_at,
       re_interview,
       technical_skills : technicalSkills,
       communication_skills : communicationSkills,
@@ -394,11 +395,11 @@ module.exports.put_update_candidate = async(req,res) =>{
       follow_up_date : followUpDate
     },{ user: req.user })
 
-    res.json({message: "Candidate updated successfully", candidate});
+    return res.json({message: "Candidate updated successfully", candidate});
   }
   catch(err){
     console.error("Error in candidate updating"+err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 }
 
@@ -410,21 +411,21 @@ module.exports.delete_candidate = async(req,res)=>{
     const candidate = await candidates.findOne({where:{candidate_id : candidateId}});
     if(!candidate) return res.status(404).json({message: "Candidate not found to delete"});
     await candidate.destroy({ user: req.user });
-    res.json({message: "candidate deleted,", candidate});
+    return res.json({message: "candidate deleted,", candidate});
   }
   catch(err){
     console.error(err);
-    res.status(500).send("server Error");
+    return res.status(500).send("server Error");
   }
 }
 
 module.exports.verify_candidate  =  async (req, res) => {
   try {
     const Candidates = await candidates.findAll( {paranoid : false});
-    res.json(Candidates);
+    return res.json(Candidates);
   } catch (err) {
     console.error('Error fetching candidates:', err);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 };
 
@@ -440,10 +441,10 @@ module.exports.filter_value = async(req, res)=>{
         'current_status'
       ]
     })
-    res.json(filterValue);
+    return res.json(filterValue);
   }
   catch (err){
     console.error(err);
-    res.status(500).send('server Error');
+    return res.status(500).send('server Error');
   }
 }
