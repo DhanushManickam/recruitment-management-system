@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candidates list</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
     <link rel="stylesheet" href="../stylesheets/candidates.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -78,13 +77,13 @@
                 <table id="candidateTable" >
                     <thead>
                         <tr id="head-row">
-                            <th id="start" style="width: 5%;">S.no</th>
-                            <th style="width: 15%;">Name</th>
-                            <th style="width: 20%;">Role</th>
-                            <th style="width: 12%">Experience</th>
-                            <th style="width: 10%">Follow up</th>
-                            <th style="width: 20%;">Current status</th>
-                            <th style="width: 20%;">Actions</th>
+                            <th id="start" style="width: 50px;">S.no</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th style="width: 120px;">Experience</th>
+                            <th style="width: 120px;">Follow up</th>
+                            <th>Current status</th>
+                            <th style="width: 200px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -193,7 +192,7 @@
                         <div class="row">
                             <div class=" mb-3 col-md-6">
                                 <label for="pre_intv_at" class="form-label">Preliminary Interview Date</label>
-                                <input type="text" id="pre_intv_at" name="pre_intv_at" class="form-control">
+                                <input type="datetime-local" id="pre_intv_at" name="pre_intv_at" class="form-control">
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="pre_intv_by" class="form-label">Interviewed by</label>
@@ -284,7 +283,7 @@
                           <div class="row">
                               <div class="mb-3 col-md-6">
                                   <label for="interviewAt" class="form-label">Interview Date</label>
-                                  <input type="text" class="form-control" id="interviewAt" name="interview_at">
+                                  <input type="datetime-local" class="form-control" id="interviewAt" name="interview_at">
                               </div>
                               <div class="mb-3 col-md-6">
                                   <label for="interviewer" class="form-label">Interviewer Name</label>
@@ -352,7 +351,7 @@
                               </div>
                               <div class="mb-3 col-md-6 re-interview" style="display: none;">
                                   <label for="reinterviewAt" class="form-label">Re-Interview Date</label>
-                                  <input type="text" class="form-control" id="reinterviewAt" name="re_interview_at">
+                                  <input type="datetime-local" class="form-control" id="reinterviewAt" name="re_interview_at">
                                   <div id="interviewdate"></div>
                               </div>
                             </div>
@@ -392,8 +391,8 @@
                             <div class="mb-3 col-md-6">
                                   <label for="location" class="form-label">Reporting Location</label>
                                   <select name="reporting_location" id="location" class="form-select">
-                                      <option value="Coimbatore">Coimbatore</option>
-                                      <option value="Salem">Salem</option>
+                                      <option value="KT Telematic Solutions Pvt. Ltd, Coimbatore">KT Telematic Solutions Pvt. Ltd, Coimbatore</option>
+                                      <option value="KT Telematic Solutions Pvt. Ltd, Salem">KT Telematic Solutions Pvt. Ltd, Salem</option>
                                   </select>
                               </div>
                               
@@ -405,7 +404,7 @@
                               </div>
                               <div class="mb-3 col-md-6">
                                   <label for="report_time" class="form-label">Reporting Time</label>
-                                  <input type="text" class="form-control" id="report_time" name="reporting_time">
+                                  <input type="time" class="form-control" id="report_time" name="reporting_time">
                               </div>
                               
                             </div>
@@ -526,7 +525,6 @@
     </div>
   </div>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script src="../javascripts/candidates.js"></script>
     <script src="../javascripts/header.js"></script>
