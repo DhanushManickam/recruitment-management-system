@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const candidateId = updateButton.getAttribute("data-id");
             if (!candidateId);
 
-            try {
+            try { 
               const response = await fetch(
                 `/api/update-candidate/${candidateId}`
               );
@@ -154,18 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if (candidate.sal_type === "Monthly") {
                 salary = salary * 12;
               }
-              const interviewAt = candidate.interview_at
-                ? new Date(candidate.interview_at).toISOString().slice(0, 16)
-                : "";
-              const reInterviewAt = candidate.re_interview_at
-                ? new Date(candidate.re_interview_at).toISOString().slice(0, 16)
-                : "";
-              const preInterviewAt = candidate.pre_intv_at
-                ? new Date(candidate.pre_intv_at).toISOString().slice(0, 16)
-                : "";
 
-              document.querySelector("#updateModal #pre_intv_at").value =
-                preInterviewAt || "";
               document.querySelector("#updateModal #pre_intv_status").value =
                 candidate.pre_intv_status || "";
               document.querySelector("#updateModal #pre_intv_remark").value =
@@ -188,12 +177,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 candidate.task_remark || "";
               document.querySelector("#updateModal #interviewer").value =
                 candidate.interviewer || "";
-              document.querySelector("#updateModal #interviewAt").value =
-                interviewAt;
               document.querySelector("#updateModal #result").value =
                 candidate.interview_status || "";
-              document.querySelector("#updateModal #reinterviewAt").value =
-                reInterviewAt;
               document.querySelector("#updateModal #re-result").value =
                 candidate.re_interview || "";
               const technical = document.querySelector(
@@ -232,8 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 salary || "";
               document.querySelector("#updateModal #onboardDate").value =
                 candidate.reporting_date || "";
-              document.querySelector("#updateModal #report_time").value =
-                candidate.reporting_time || "";
               document.querySelector("#updateModal #location").value =
                 candidate.reporting_location || "";
               const doc_verified = document.querySelector(
@@ -255,6 +238,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 candidate.overall_remark || "";
               document.querySelector("#updateModal #candidate_id").value =
                 candidate.candidate_id;
+
+              flatpickr("#updateModal #pre_intv_at", {
+                enableTime: true,
+                dateFormat: "Y-m-d h:i K",
+                time_24hr: false,
+                defaultDate: candidate.pre_intv_at
+              });
+
+              flatpickr("#updateModal #interviewAt", {
+                enableTime: true,
+                dateFormat: "Y-m-d h:i K",
+                time_24hr: false,
+                defaultDate: candidate.interview_at
+              });
+
+              flatpickr("#updateModal #reinterviewAt", {
+                enableTime: true,
+                dateFormat: "Y-m-d h:i K",
+                time_24hr: false,
+                defaultDate: candidate.re_interview_at
+              });
+
+              flatpickr("#updateModal #report_time", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                time_24hr: false,
+                defaultDate: candidate.reporting_time,
+                defaultHour: 10,
+                defaultMinute: 0,
+              });
+
               if (candidate.task_status) {
                 toggleOtherField();
               }
